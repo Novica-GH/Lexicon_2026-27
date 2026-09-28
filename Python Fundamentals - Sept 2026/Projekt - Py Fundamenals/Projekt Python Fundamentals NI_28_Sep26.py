@@ -1,215 +1,498 @@
 #********************************************************************************************
 #  Novica Ivkovic                                                                           *
 #  Cours: System Developer Python and AI                                                    *
-#  September 28 2026 -             P R O J E C T                                            *
-#             Today's study goal is:  Python Fundamentals - slut PROJECT                    *
+#  September 28 2026 -                                                                      *
+#                              P R O J E C T - Python Fundamentals                          *
+#                                                                                           *
+#            Python Fundamentals - slut PROJECT - Option 3 - Booking System (HOTEL)         *
+#                                                                                           *
+#                                                                                           *
 #********************************************************************************************
 
 
 #********************************************************************************************
-# Bringing IT All Together                            *
-#********************************************************************************************
-
-# This is Not a Checklist and we don't need to use everything that we done on the course
-#------------------------------------------------------------------------------------------
-
-
-
-# Begining
-#----------------------------------------------------------------
-     
-
-
-# Part A.3 
-#-----------------------------------------------------------------
-
-
-
-# Part A.4 
-#---------------------------------------------------------------------
-
-
-# Part A.5 
-#----------------------------------------------------------------------------------------------------------------
-
-  
-        
-# Part A.6. 
-#-----------------------------------------------------------------------------------------------
-
+# 
+#   OPTION 3 - Booking System
+# 
+#    -  Build a Python program for managing bookings.
+#    -  You decide what kind of booking system you want to create. 
+#    -  It could be used for (hotel rooms), sports facilities, meeting rooms, activities, 
+#       appointments or another type of resource or service. 
+#    -  The system should contain different types of objects that interact with each other
+#    -  For example, a booking could connect a customer with something that can be bokat.
+#    -  Bookings should have meaningful behaviour. They might be created, cancelled, changed
+#       or checked in different ways. 
+#    -  The system should keep track of its current state while the program is running. 
+#    -  You decide how bookings, customers, resources and other parts of your system 
+#       should be represented and how they relate to each other.
+#
+#    -  No database or permanent data storage is required. The data only needs to exists  
+#       while program is running.
+#
+#       Possible ideas
+#
+#       - diferent types of bookable resources or services
+#       - customers
+#       - availability
+#       - booking status
+#       - cancellation
+#       - preventing conflicting bookings
+#       - prices or costs
+#       - different booking rules
+#       - searching and filtering bookings
+#       - statistics
+#       - summaries of available and booked resources
+#
+#
+#*******************************************************************************************
 
 
 
 #***********************************************************************************************
-#  LAB N               Part B -                        *
+#
+#                                   CORE EXPECTATIONS
+#
+#   1.  Build a Complete and Connected Program  
+#   2.  Use Object-Oriented Programming 
+#   3.  Create Relationships and Interactions Between Objects  
+#   4.  Actions Should Affect the State of Your System  
+#   5.  Work With Collections of Data or Objects
+#   6.  Include Meaningful Program Logic
+#   7.  Handle Invalid or Unreasonable Actions   
+#   8.  Organize the Project Into Multiple Python Modules    
+#   9.  Make the Program Runnable and Demonstrable   
+#   10. Use Git Throughout the Project 
+#
+#       -   Add basic booking functionality
+#       -   Prevent conflicting bookings  
+#       -   Add visitor interactions  
+#       -   Implement character  health system          
+#       -   Refactor shared behaviour       
+#       -   Fix negative enery bug   
+#
 #***********************************************************************************************
 
-
-# Part B.1 
-#--------------------------------------------------------------------
-
-
-
-
-# Part B.3 
-#----------------------------------------------------------------------------------------------------------
-
-
-
-# Part B.4 
-#--------------------------------------------------------------------------------------
-
-
-
-
-# Part B.5 
-#----------------------------------------------------------------------------------------------------
-
-
-
-                  
+         
 
     
 #****************************************************************************************************
-#  LAB N                            PART C -                                             *
+#  
+#   FURTHER DEVELOPMENT
+# 
+#   ..........
+# 
+# 
+# 
+# f
 #****************************************************************************************************
 
 
-# C.1. 
-#--------------------------------------------------------------------
-
-
-
-# C.2 
-#-----------------------------------------
-
-
-
-
-# C.3 
-#------------------------------------------------------------
-
-
-
-# C.4 
-#------------------------------------------------------------------------------------------------
-
-
-
 
 #************************************************************************************************
-#  LAB 6                         PART D -                                    *
+#                                  HOTEL - ASTORIA - parts - all att one place:
 #************************************************************************************************
 
-# D.1 
-#-------------------------------------------------------------------------
+
+#*************************************
+#     PART 1 - PERSONS:
+#**********************************
+
+#    1. Employies:  Reception / Manager / Stuff / Service / Waiter / Lichen-chef / Lift boy / Garage personal
+
+#    2. Users:      Simple / Pairs / Groups ( business groups, athletes and coaches, students (with techers or without)
+
+#    3. Places by level of impotance: 1. Reception/Room(floor);  2. Apartman/ Restaurang  3. Kitchen/Elevator/Pool/Gym/Pool/Garage
+ 
+#   4. states and behaviors:    
+
+# We need to develope this class for all employies in the hotel.
+
+class Employee:
+#     def __init__(self, name):
+#         self.name = name
+
+#     def get_information(self):
+#         return f"\nEmployee: {self.name}"
 
 
+# class Developer(Employee):
+#     def __init__(self, name, programming_language="Python"):
+#         super().__init__(name)
+#         self.programming_language = programming_language
 
-# D.2 
-#-------------------------------------------------------
-
-
-
-# D.3 
-#--------------------------------------------------------
-
+#     def write_code(self):
+#         return f"{self.name} is writing {self.programming_language} code."
 
 
-# D.4 
-#-----------------------------------------------------------------------
+# class Manager(Employee):
+#     def __init__(self, name, department="IT"):
+#         super().__init__(name)
+#         self.department = department
+
+  
+#     def conduct_meeting(self):
+#         return f"{self.name} is conducting a meeting for the {self.department} department.\n"
 
 
+# mngr = Manager("Charlie", "Engineering")
 
-# D.5 
-#-----------------------------------------------------------------
+# print(mngr.get_information())
+# print(mngr.conduct_meeting())
+#-------------------------------------------------
+
+# - Simple user
+class User:   
+#     def __init__(self, username, email):
+#         self.username = username
+#         self.email = email
 
 
-# D.6 
+# class AdminUser(User):
+#     def __init__(self, username, email, admin_level):
+#         super().__init__(username, email)
+#         self.admin_level = admin_level
+
+
+# admin_user = AdminUser("sys_admin", "admin@company.com", "SuperAdmin")
+
+
+# is_admin = isinstance(admin_user, AdminUser)
+# is_user = isinstance(admin_user, User)
+# is_string = isinstance(admin_user, str)
+
+# print("\n--- isinstance() Check Results ---\n")
+# print(f"Is AdminUser: {is_admin}")
+# print(f"Is User:      {is_user}")
+# print(f"Is string:    {is_string}")
+# print()
 #-----------------------------------------------------
+     
 
 
+# Primer kada trener/direktor/sef/techer dovodi grupno zaposlene/igrace/studente...
+class Teacher:
+#     def __init__(self, name):
+#         self.name = name
 
 
-#******************************************************************************************************
-#  LAB N                             Part E -                                       *
-#******************************************************************************************************
+# class Student:
+#     def __init__(self, name, score):
+#         self.name = name
+#         self.score = score
 
 
-# E.1 
-#--------------------------------------------------------------
+# class Course:
+#     def __init__(self, course_name, teacher):
+#         self.course_name = course_name
+#         self.teacher = teacher
+#         self.students = []
+
+#     def add_student(self, student):
+#         self.students.append(student)
 
 
+# teacher1 = Teacher("Prof. Donatello")
+# course1 = Course("Python Programming", teacher1)
 
-# E.2 
-#---------------------------------------------------------------------------
-
-
-
-
-# E.3 
-#-------------------------------------------
+# course1.add_student(Student("Ada", 85))
+# course1.add_student(Student("Nada", 95))
+# course1.add_student(Student("Senada", 78))
 
 
+# print(f"\nCourse: {course1.course_name}")
+# print(f"Teacher: {course1.teacher.name}")
+# print("Students:")
 
-# E.4 
-#-------------------------------------------------------------------------------------------------
+# for student in course1.students:
+#     print(student.name)
+# print()
+#----------------------------------------------------
+
+# class Teacher:
+#     def __init__(self, name):
+#         self.name = name
 
 
-# E.5 
+# class Student:
+#     def __init__(self, name, score):
+#         self.name = name
+#         self.score = score
+
+#     def get_status(self, passing_score=70):
+#         # a method that returns "PASS" or "FAIL"
+#         if self.score >= passing_score:
+#             return "PASS"
+#         else:
+#             return "FAIL"
+
+
+# class Course:
+#     def __init__(self, course_name, teacher):
+#         self.course_name = course_name
+#         self.teacher = teacher
+#         self.students = []
+
+#     def add_student(self, student):
+#         self.students.append(student)
+
+
+#     def display_course_info(self):
+#         print("*" * 50)
+#         print(f"        COURSE:  {self.course_name}")
+#         print(f"        TEACHER: {self.teacher.name}")
+#         print("-" * 50)
+#         print(" STUDENTS:        SCORE:         PASS/FAIL:")
+#         if not self.students:
+#             print("  (No students on the course)")
+#         else:
+#             for student in self.students:
+#                 print(f" • {student.name:<15} Score: {student.score:<9} {student.get_status()}")
+#             print("-" * 50)
+#         print("*" * 50 + "\n")
+
+#  #end of 3 class definition
+
+
+#  # def 2 objects - class Teacher
+# teacher_python = Teacher("Prof. Donatello")
+# teacher_math = Teacher("Dr Gaus")
+
+#  # def 2 objects - class Course
+# python_course = Course("Python OOP Fundamentals", teacher_python)
+# math_course = Course("Komplex Mathematics", teacher_math)
+
+#  # def 5 objects - class Student
+# s1 = Student("Ada", 85)
+# s2 = Student("Senada", 65)
+# s3 = Student("Nada", 95)
+# s4 = Student("Rada", 78)
+# s5 = Student("Serenada", 72)
+
+#  # schedule of students by courses (py and math)
+# python_course.add_student(s1)
+# python_course.add_student(s2)
+# python_course.add_student(s3)
+
+# math_course.add_student(s1)
+# math_course.add_student(s4)
+# math_course.add_student(s5)
+
+#  # test - printing reports by courses
+# python_course.display_course_info()
+# math_course.display_course_info()
+#----------------------------------------------------------
+# Nastavak:  Ispis onih studenata koji su prosli....
+# passing_students = course.get_passing_students()
+
+# print(f"\nTotal students: {course.get_student_count()}")
+# print(f"Students who passed ({len(passing_students)}):")
+
+# for student in passing_students:
+#     print(f"- {student.name}: {student.score} points")
+# print()
+#------------------------------------------------------------------------------------
+
+#   Add validation somewhere in your program using ValueError. Chose a validation that makes sense.
+
+# class Student:
+#     def __init__(self, name, score):
+#         self.name = name
+        
+#         # Adding validation here: Check score for students in range [0, 100]
+#         if not isinstance(score, (int, float)):
+#             raise ValueError("Score must be a number (int or float).")
+        
+#         if score < 0 or score > 100:
+#             raise ValueError(f"Invalid score ({score}). Score must be between 0 and 100.") # ValueError
+            
+#         self.score = score
+
+#     def get_status(self):
+#         return "PASS" if self.score >= 50 else "FAIL"
 #------------------------------------------------------------------------------
 
 
 
 
+
+#******************************************************************************************************
+#  PART 2 - THINGS AND STAF...
+#******************************************************************************************************
+
+
+
+
+
+
+EmailNotification:
+#     def __init__(self, email_address):
+#         self.recipient = email_address
+
+#     def get_channel(self):
+#         return f"Channel: Email ({self.recipient})"
+
+#     def send(self, message):
+#         return f"[EMAIL] Sent to {self.recipient} via SMTP server: '{message}'"
+
+
+# class SMSNotification:
+#     def __init__(self, phone_number):
+#         self.recipient = phone_number
+
+#     def get_channel(self):
+#         return f"Channel: SMS ({self.recipient})"
+
+#     def send(self, message):
+#         return f"[SMS]   Sent to {self.recipient} via Telia Gateway: '{message}'"
+
+
+# class PushNotification:
+#     def __init__(self, device_token):
+#         self.recipient = device_token
+
+#     def get_channel(self):
+#         return f"Channel: Push Notification ({self.recipient})"
+
+#     def send(self, message):
+#         return f"[PUSH]  Sent to device {self.recipient} via P-Service: '{message}'\n"
+
+
+# # Testiranje Part A.2
+# email = EmailNotification("user@lexicon.com")
+# sms = SMSNotification("+46731234567")
+# push = PushNotification("token_abf123")
+
+# print("\n               --- Testing send() methods --- \n")
+# print(email.send("Your LAB for September is ready."))
+# print(sms.send("Your security code is 1245."))
+# print(push.send("You have a new direct message!"))
+#------------------------------------------------------------------
+
+class Document:
+#     def __init__(self, title):
+#         self.title = title
+
+#     def describe(self):
+#         return f"\nDocument Title: '{self.title}',\n"
+
+
+# doc = Document("General Specification")
+# print(doc.describe())
+#-----------------------------------------------------
+
+# class Device:
+#     def __init__(self, brand, year):
+#         self.brand = brand
+#         self.year = year
+
+
+# device = Device("Dell", 2023)
+# print(f"Brand: {device.brand}, Year: {device.year}")
+#--------------------------------------------------------------
+
+
+
+class Account:
+#     def __init__(self, owner, balance):
+#         self.owner = owner
+#         self.balance = balance
+
+  
+# account = Account("Ada", 1000.0)
+# print(f"Owner: {account.owner} | Balance: {account.balance}")
+#----------------------------------------------------------
+
+
+
+
+class BankAccount:
+#     def __init__(self, owner, balance):
+#         self.owner = owner
+#         self.balance = balance
+
+#     def deposit(self, amount):
+#         self.balance += amount
+
+#     def withdraw(self, amount):
+#         if amount > self.balance:
+#             raise ValueError("Not enough money for this withdrawal.")
+#         self.balance -= amount
+
+# account = BankAccount("Ada", 2000)
+
+# account.deposit(700)
+# print(f"\n Balance after deposit: {account.balance}")
+
+# account.withdraw(6000)
+# print(f" Balance after withdrawal: {account.balance}\n") #Warning the withdraw amount is larger then balance!
+#-----------------------------------------------------------------------------------------------------------------
+
+
+class Product:
+#     def __init__(self, name, price):
+#         self.name = name    
+#         self.price = price  
+
+
+# product1 = Product("Laptop", 10000.0)  #  Objekt - instance -  classe Product
+# product2 = Product("Mouse", 250.0)
+
+
+# print(f"\nProduct 1: {product1.name} | Price: {product1.price} SEK")
+# print(f"Product 2: {product2.name}  | Price:   {product2.price} SEK\n")
+#--------------------------------------------------------------------------------
+
+class Product:
+#     tax_rate = 0.25     # Start tax rate
+
+#     def __init__(self, name, price):
+#         self.name = name
+#         self.price = price
+
+#     def price_with_tax(self):
+#         return self.price * (1 + self.tax_rate)
+
+
+# product1 = Product("Laptop", 8000.0)
+# product2 = Product("Mouse", 300.0)
+# product3 = Product("Keyboard", 500.0)
+
+# print("\n--- Before change (tax_rate = 0.25) ---\n")
+# print(f"{product1.name}: {product1.price_with_tax():.2f} kr")
+# print(f"{product2.name}: {product2.price_with_tax():.2f} kr")
+# print(f"{product3.name}: {product3.price_with_tax():.2f} kr")
+
+
+# Product.tax_rate = 0.20   # Changing tax rate
+
+# print("\n--- After change - Product.tax_rate = 0.20 ---\n")
+# print(f"{product1.name}: {product1.price_with_tax():.2f} kr")
+# print(f"{product2.name}: {product2.price_with_tax():.2f} kr")
+# print(f"{product3.name}: {product3.price_with_tax():.2f} kr\n")
+#-----------------------------------------------------------------------
+
+
 #*******************************************************************************************************
-#  LAB N                    Part F -                               *
+# PART 3 - Places  
 #*******************************************************************************************************
 
+# Reception     - base level
+# Room          - base level
+# Floor         - base level
 
-# F.1 
-#----------------------------------------------------------------------------------
+# Apartman      - level 2
+# Restaurang    - level 2
 
-
-
-# F.2 
-#-----------------------------------------------------------------------------------------------------
-
-
-
-# F.3 
-#----------------------------------------
-
-
-
-# F.4  
-#---------------------------------------------------
-
-
-
-# F.5 
-#---------------------------------------------------------------------------------
+# Elevator(Hiss)- level 3
+# Pool          - level 3
+# Jim           - level 3
+# Garage        - level 3
+# Kitchen       - level 3
 
 
 
 
-# F.6 
-#-------------------------------------------------------------
 
-
-
-
-# F.7 
-#--------------------------------------------
-
-
-
-# F.8 
-#----------------------------------------------------------------------------------------
-
-
-# F.9 
-#----------------------------------------------------------------------------------------
 
 
 
@@ -218,24 +501,7 @@
 #  LAB N                         Part G -                                           *
 #*******************************************************************************************************
 
-# G.1 
-#----------------------------------------------------------
 
 
-# G.2 
-#----------------------------------------------------------------------------------------
 
-
-# G.3 
-#----------------------------------------------------------------------------------------------------
-
-
-# G.4 
-#------------------------------------------------------------------------------------------------------------
-
-
-# G.5 
-#---------------------------------------------------------------------------------------------
-
-
-# **********************************  END of LAB 6  ********************************************************
+# **********************************  END of PROJECT ********************************************************
