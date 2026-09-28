@@ -105,7 +105,23 @@
  
 #   4. states and behaviors:    
 
-# We need to develope this class for all employies in the hotel.
+
+
+
+
+
+
+
+
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+# I need to develope this class for all employies in the hotel.
 
 class Employee:
 #     def __init__(self, name):
