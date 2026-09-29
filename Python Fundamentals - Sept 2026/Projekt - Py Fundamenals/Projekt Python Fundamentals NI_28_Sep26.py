@@ -86,11 +86,12 @@
 #   - ... next steps ....
 
 
+#               +++++++++++++++++++++   CLASES   ++++++++++++++++++++++
 
 class Customer:
     def __init__(self, customer_id: int, name: str, email: str):
         self.customer_id = customer_id
-        self.name = name
+        self.name = name  
         self.email = email
 
     def get_discount_rate(self):
@@ -100,7 +101,7 @@ class Customer:
         return f"Customer: [ID: {self.customer_id}], name: {self.name}, e-mail: ({self.email})"
 
 
-class VIPCustomer(Customer): 
+class VIPCustomer(Customer):  # subclass/child
     def __init__(self, customer_id: int, name: str, email: str, discount_rate: float = 0.15):
         super().__init__(customer_id, name, email)
         self.discount_rate = discount_rate
@@ -113,15 +114,20 @@ class VIPCustomer(Customer):
         return f"[VIP] {base_info}, Discount: {int(self.discount_rate * 100)}%"
 
 
-customer  = Customer(1212, "Ada","ada.ericsson@az.se")
+customer1 = Customer(1212, "Ada","ada.ericsson@az.se")
+customer2 = Customer(1313, "Bob", "bob@bob.se") 
+customer3 = Customer(1414, "Grace", "grace@grace.net")
+
 customerV = VIPCustomer(5155, "Mr.Been", "rowanatkinson@mr_been.com",0.15)
+customerV_2 = VIPCustomer(5255, "Mrs Foley", "mf@foley.org")
 
 print()
-print(customer) # test OK -> Customer [ID: 1212] Ada (ada.ericsson@az.com)
-print(customerV)
+print(customer1)   # Customer [ID: 1212] Ada (ada.ericsson@az.com)
+print(customerV)   # [VIP] Customer: [ID: 5155], name: Mr.Been, e-mail: (rowanatkinson@mr_been.com), Discount: 15% 
 print()
 
-
+   
+#------------------------------------------------
 
 
 class Room:
@@ -134,13 +140,24 @@ class Room:
         return self.base_price_per_night * nights
 
     def get_room_type(self):
-        return " Room - Hotel Astoria"
+        return " Room in Hotel Astoria"
 
-    def __str__(self):
-        return f"Room {self.room_number} ({self.get_room_type()}) - {self.base_price_per_night:.2f}/night kr"
+    def __str__(self):   # def for print / method - return always string
+        return f"Room {self.room_number} ({self.get_room_type()}) - {self.base_price_per_night:.2f} kr/night "
+
+print()
+rum1 = Room(4,2000)
+rum2 = Room(5, 2200)
+rum3 = Room(6,2400)
+
+price_rum1 = rum1.calculate_price(5)
+print(price_rum1)               # 10000  (for 5 nights)
+print(rum1)                     # Room 4 ( Room in Hotel Astoria) - 2000.00 kr/night
+print()
 
 
-class StandardRoom(Room):
+
+class StandardRoom(Room):       # subclass/child
     def __init__(self, room_number: int, base_price_per_night: float, sea_view: bool = False):
         super().__init__(room_number, base_price_per_night)
         self.sea_view = sea_view
@@ -153,7 +170,17 @@ class StandardRoom(Room):
         return f"{super().__str__()} [{self.sea_view}]"
 
 
-class SuiteRoom(Room):
+rum_standard_1 = StandardRoom(7, 1000)
+rum_standard_2 = StandardRoom(8, 1200)
+rum_standard_3 = StandardRoom(9, 1300)
+
+price_rum_standard_1 = rum_standard_1.calculate_price(11)
+print(price_rum_standard_1)         # 11000  ( 11 nights x 1000 kr)
+print(rum_standard_1)               # Room 7 (Standard Room) - 1000.00 kr/night  [False]
+print()
+
+
+class SuiteRoom(Room):      # subclass/child
     def __init__(self, room_number: int, base_price_per_night: float, includes_jacuzzi: bool = True):
         super().__init__(room_number, base_price_per_night)
         self.includes_jacuzzi = includes_jacuzzi
@@ -162,7 +189,7 @@ class SuiteRoom(Room):
         return "Suite Room"
 
     def calculate_price(self, nights: int):
-        luxury_tax = 50.0   # Suites include a luxury charge
+        luxury_tax = 1000.0   # Suites include a luxury charge
         return (self.base_price_per_night + luxury_tax) * nights
 
     def __str__(self):
@@ -170,14 +197,70 @@ class SuiteRoom(Room):
         return f"{super().__str__()} [{jacuzzi_str}]"
 
 
+suite_1 = SuiteRoom(1, 5000)
+suite_2 = SuiteRoom(2, 6000)
+suite_3 = SuiteRoom(3, 7000)
+
+price_suite_1 = suite_1.calculate_price(7) # 7 nights
+print(price_suite_1)            # 42000.0   [7 nights * (price+lux_tax)]
+print(suite_1)                  # Room 1 (Suite Room) - 5000.00 kr/night  [with Jacuzzi]
+print()
+#-----------------------------------------
 
 
 
+class Booking:
+    STATUS_CONFIRMED = "Confirmed"
+    STATUS_CHECKED_IN = "Checked In"
+    STATUS_CANCELLED = "Cancelled"
+
+    def __init__(self, booking_id: int, customer: Customer, room: Room, nights: int):
+        if nights <= 0:
+            raise ValueError("Booking nights must be greater than zero.")  # Varning - ValueError
+
+        self.booking_id = booking_id
+        self.customer = customer
+        self.room = room
+        self.nights = nights
+        self.status = self.STATUS_CONFIRMED
+        self.total_cost = self._calculate_total()
+
+    def _calculate_total(self):   # internal/Protected method (begining with _) and it is used just by this Class. We don't call it outside of this Class. 
+        raw_price = self.room.calculate_price(self.nights)                  # Standard convetion in Python
+        discount = self.customer.get_discount_rate()            # This method uses constructor __init__ like help method (not by user)
+        return raw_price * (1.0 - discount)
+
+    def check_in(self):
+        if self.status != self.STATUS_CONFIRMED:
+            raise ValueError(f"Cannot check in a booking with status '{self.status}'.")
+        self.status = self.STATUS_CHECKED_IN
+
+    def cancel(self):
+        if self.status == self.STATUS_CHECKED_IN:
+            raise ValueError("Cannot cancel a booking that is already checked in.")
+        self.status = self.STATUS_CANCELLED
+
+    def __str__(self):
+        return (
+            f"Booking #{self.booking_id} [{self.status}] | "
+            f"{self.customer.name} -> Room {self.room.room_number} | "
+            f"Nights: {self.nights} | Total: {self.total_cost:.2f} kr"
+        )
 
 
 
+booking1 = Booking(2609291, customer1, rum1, 3)             # Booking #2609291 [Confirmed] | Ada -> Room 4 | Nights: 3 | Total: 6000.00 kr
+booking2 = Booking(2609292, customerV, suite_1, 7 )         # Booking #2609292 [Confirmed] | Mr.Been -> Room 1 | Nights: 7 | Total: 35700.00 kr
+booking3 = Booking(2609293, customer2, rum_standard_2, 4)   # Booking #2609293 [Confirmed] | Bob -> Room 8 | Nights: 4 | Total: 4800.00 kr
+booking4 = Booking(2609294, customerV_2, suite_3, 21)       # Booking #2609294 [Confirmed] | Mrs Foley -> Room 3 | Nights: 21 | Total: 142800.00 kr
+
+bookings = [booking1,booking2, booking3, booking4]
 
 
+for boking in bookings:
+    print(boking)
+
+print()
 
 
 
