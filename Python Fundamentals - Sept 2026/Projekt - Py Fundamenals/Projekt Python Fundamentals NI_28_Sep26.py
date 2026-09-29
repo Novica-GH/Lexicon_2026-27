@@ -74,7 +74,119 @@
 
          
 
-    
+#************************************************************************************************
+#                                  HOTEL - ASTORIA - Managing booking Project (Reception++)
+#************************************************************************************************
+
+# For the begining I need just: 
+#
+#   -   Customer (Standard/VIP or [Business/Leisure (Turists) or Tour Groups/Leisure Groups/Transit guests)]
+#   -   Room (Standard room/Suite )
+#   -   Booking ()
+#   - ... next steps ....
+
+
+
+class Customer:
+    def __init__(self, customer_id: int, name: str, email: str):
+        self.customer_id = customer_id
+        self.name = name
+        self.email = email
+
+    def get_discount_rate(self):
+        return 0.0  # For standard customers there isn't any discount
+
+    def __str__(self):
+        return f"Customer: [ID: {self.customer_id}], name: {self.name}, e-mail: ({self.email})"
+
+
+class VIPCustomer(Customer): 
+    def __init__(self, customer_id: int, name: str, email: str, discount_rate: float = 0.15):
+        super().__init__(customer_id, name, email)
+        self.discount_rate = discount_rate
+
+    def get_discount_rate(self):
+        return self.discount_rate
+
+    def __str__(self):
+        base_info = super().__str__()
+        return f"[VIP] {base_info}, Discount: {int(self.discount_rate * 100)}%"
+
+
+customer  = Customer(1212, "Ada","ada.ericsson@az.se")
+customerV = VIPCustomer(5155, "Mr.Been", "rowanatkinson@mr_been.com",0.15)
+
+print()
+print(customer) # test OK -> Customer [ID: 1212] Ada (ada.ericsson@az.com)
+print(customerV)
+print()
+
+
+
+
+class Room:
+    def __init__(self, room_number: int, base_price_per_night: float):
+        self.room_number = room_number
+        self.base_price_per_night = base_price_per_night
+        self.is_clean = True
+
+    def calculate_price(self, nights: int):  #float
+        return self.base_price_per_night * nights
+
+    def get_room_type(self):
+        return " Room - Hotel Astoria"
+
+    def __str__(self):
+        return f"Room {self.room_number} ({self.get_room_type()}) - {self.base_price_per_night:.2f}/night kr"
+
+
+class StandardRoom(Room):
+    def __init__(self, room_number: int, base_price_per_night: float, sea_view: bool = False):
+        super().__init__(room_number, base_price_per_night)
+        self.sea_view = sea_view
+
+    def get_room_type(self):
+        return "Standard Room"
+
+    def __str__(self):
+        sea_view_str = "with Sea view" if self.sea_view else "Park view"
+        return f"{super().__str__()} [{self.sea_view}]"
+
+
+class SuiteRoom(Room):
+    def __init__(self, room_number: int, base_price_per_night: float, includes_jacuzzi: bool = True):
+        super().__init__(room_number, base_price_per_night)
+        self.includes_jacuzzi = includes_jacuzzi
+
+    def get_room_type(self):
+        return "Suite Room"
+
+    def calculate_price(self, nights: int):
+        luxury_tax = 50.0   # Suites include a luxury charge
+        return (self.base_price_per_night + luxury_tax) * nights
+
+    def __str__(self):
+        jacuzzi_str = "with Jacuzzi" if self.includes_jacuzzi else "no Jacuzzi"
+        return f"{super().__str__()} [{jacuzzi_str}]"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #****************************************************************************************************
 #  
 #   FURTHER DEVELOPMENT
@@ -94,7 +206,7 @@
 
 
 #*************************************
-#     PART 1 - PERSONS:
+#     PART 1 - PERSONS: - for Very, very big PROJECT... but I need now just a part of all this to begin...
 #**********************************
 
 #    1. Employies:  Reception / Manager / Stuff / Service / Waiter / Lichen-chef / Lift boy / Garage personal
@@ -106,24 +218,32 @@
 #   4. states and behaviors:    
 
 
+#PART 3 - Places   - for VERY VERY BIG PROJECT.....
+#*******************************************************************************************************
 
+# Reception     - base level
+# Room          - base level
+# Floor         - base level
 
+# Apartman      - level 2
+# Restaurang    - level 2
 
-
-
-
+# Elevator(Hiss)- level 3
+# Pool          - level 3
+# Jim           - level 3
+# Garage        - level 3
+# Kitchen       - level 3
 
 
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-
+# PARTS FROM EX CODE, that can be useful here.... / for idea / for brandstorm...
+#********************************************************************************
 
 # I need to develope this class for all employies in the hotel.
 
-class Employee:
+# class Employee:
 #     def __init__(self, name):
 #         self.name = name
 
@@ -156,8 +276,10 @@ class Employee:
 # print(mngr.conduct_meeting())
 #-------------------------------------------------
 
+
 # - Simple user
-class User:   
+
+# class User:   
 #     def __init__(self, username, email):
 #         self.username = username
 #         self.email = email
@@ -185,8 +307,9 @@ class User:
      
 
 
+
 # Primer kada trener/direktor/sef/techer dovodi grupno zaposlene/igrace/studente...
-class Teacher:
+# class Teacher:
 #     def __init__(self, name):
 #         self.name = name
 
@@ -223,6 +346,8 @@ class Teacher:
 #     print(student.name)
 # print()
 #----------------------------------------------------
+
+
 
 # class Teacher:
 #     def __init__(self, name):
@@ -297,6 +422,8 @@ class Teacher:
 # python_course.display_course_info()
 # math_course.display_course_info()
 #----------------------------------------------------------
+
+
 # Nastavak:  Ispis onih studenata koji su prosli....
 # passing_students = course.get_passing_students()
 
@@ -306,7 +433,9 @@ class Teacher:
 # for student in passing_students:
 #     print(f"- {student.name}: {student.score} points")
 # print()
-#------------------------------------------------------------------------------------
+#---------
+# 
+# ---------------------------------------------------------------------------
 
 #   Add validation somewhere in your program using ValueError. Chose a validation that makes sense.
 
@@ -340,7 +469,7 @@ class Teacher:
 
 
 
-EmailNotification:
+# EmailNotification:
 #     def __init__(self, email_address):
 #         self.recipient = email_address
 
@@ -384,7 +513,9 @@ EmailNotification:
 # print(push.send("You have a new direct message!"))
 #------------------------------------------------------------------
 
-class Document:
+
+
+# class Document:
 #     def __init__(self, title):
 #         self.title = title
 
@@ -395,6 +526,8 @@ class Document:
 # doc = Document("General Specification")
 # print(doc.describe())
 #-----------------------------------------------------
+
+
 
 # class Device:
 #     def __init__(self, brand, year):
@@ -408,7 +541,7 @@ class Document:
 
 
 
-class Account:
+# class Account:
 #     def __init__(self, owner, balance):
 #         self.owner = owner
 #         self.balance = balance
@@ -421,7 +554,7 @@ class Account:
 
 
 
-class BankAccount:
+# class BankAccount:
 #     def __init__(self, owner, balance):
 #         self.owner = owner
 #         self.balance = balance
@@ -444,7 +577,8 @@ class BankAccount:
 #-----------------------------------------------------------------------------------------------------------------
 
 
-class Product:
+
+# class Product:
 #     def __init__(self, name, price):
 #         self.name = name    
 #         self.price = price  
@@ -458,7 +592,9 @@ class Product:
 # print(f"Product 2: {product2.name}  | Price:   {product2.price} SEK\n")
 #--------------------------------------------------------------------------------
 
-class Product:
+
+
+# class Product:
 #     tax_rate = 0.25     # Start tax rate
 
 #     def __init__(self, name, price):
@@ -489,7 +625,7 @@ class Product:
 
 
 #*******************************************************************************************************
-# PART 3 - Places  
+# PART 3 - Places   - for VERY VERY BIG PROJECT.....
 #*******************************************************************************************************
 
 # Reception     - base level
