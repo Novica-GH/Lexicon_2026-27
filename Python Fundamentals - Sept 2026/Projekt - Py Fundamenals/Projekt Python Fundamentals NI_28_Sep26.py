@@ -83,10 +83,12 @@
 #   -   Customer (Standard/VIP or [Business/Leisure (Turists) or Tour Groups/Leisure Groups/Transit guests)]
 #   -   Room (Standard room/Suite )
 #   -   Booking ()
-#   - ... next steps ....
+#   -   Hotel Manager (the connection between the previous 3 classes)
+#   -   Main part - Interactive part - with demonstration all we have for Hotel Managing - 
+# 
 
 
-#               +++++++++++++++++++++   CLASES   ++++++++++++++++++++++
+#               +++++++++++++++++++++   CLASSES   ++++++++++++++++++++++
 
 class Customer:
     def __init__(self, customer_id: int, name: str, email: str):
@@ -114,20 +116,28 @@ class VIPCustomer(Customer):  # subclass/child
         return f"[VIP] {base_info}, Discount: {int(self.discount_rate * 100)}%"
 
 
-customer1 = Customer(1212, "Ada","ada.ericsson@az.se")
-customer2 = Customer(1313, "Bob", "bob@bob.se") 
-customer3 = Customer(1414, "Grace", "grace@grace.net")
 
-customerV = VIPCustomer(5155, "Mr.Been", "rowanatkinson@mr_been.com",0.15)
-customerV_2 = VIPCustomer(5255, "Mrs Foley", "mf@foley.org")
+class CustomerNotFoundError(Exception):   # Reserved for the time been - #7 from the Project.
+    """Raised when a specified customer ID is not found."""      # Classic docstring for Python...
+    pass
 
-print()
-print(customer1)   # Customer [ID: 1212] Ada (ada.ericsson@az.com)
-print(customerV)   # [VIP] Customer: [ID: 5155], name: Mr.Been, e-mail: (rowanatkinson@mr_been.com), Discount: 15% 
-print()
 
-   
+# customer1 = Customer(1212, "Ada","ada.ericsson@az.se")
+# customer2 = Customer(1313, "Bob", "bob@bob.se") 
+# customer3 = Customer(1414, "Grace", "grace@grace.net")
+
+# customerV = VIPCustomer(5155, "Mr.Been", "rowanatkinson@mr_been.com",0.15)
+# customerV_2 = VIPCustomer(5255, "Mrs Foley", "mf@foley.org")
+
+# print()
+# print(customer1)   # Customer [ID: 1212] Ada (ada.ericsson@az.com)
+# print(customerV)   # [VIP] Customer: [ID: 5155], name: Mr.Been, e-mail: (rowanatkinson@mr_been.com), Discount: 15% 
+# print()
+
 #------------------------------------------------
+
+
+
 
 
 class Room:
@@ -145,15 +155,15 @@ class Room:
     def __str__(self):   # def for print / method - return always string
         return f"Room {self.room_number} ({self.get_room_type()}) - {self.base_price_per_night:.2f} kr/night "
 
-print()
-rum1 = Room(4,2000)
-rum2 = Room(5, 2200)
-rum3 = Room(6,2400)
+# print()
+# room1 = Room(1004,2000)
+# room2 = Room(1005, 2200)
+# room3 = Room(1006,2400)
 
-price_rum1 = rum1.calculate_price(5)
-print(price_rum1)               # 10000  (for 5 nights)
-print(rum1)                     # Room 4 ( Room in Hotel Astoria) - 2000.00 kr/night
-print()
+# price_room1 = room1.calculate_price(5)
+# print(price_room1)               # 10000  (for 5 nights)
+# print(room1)                     # Room 4 ( Room in Hotel Astoria) - 2000.00 kr/night
+# print()
 
 
 
@@ -170,14 +180,14 @@ class StandardRoom(Room):       # subclass/child
         return f"{super().__str__()} [{self.sea_view}]"
 
 
-rum_standard_1 = StandardRoom(7, 1000)
-rum_standard_2 = StandardRoom(8, 1200)
-rum_standard_3 = StandardRoom(9, 1300)
+# room_standard_1 = StandardRoom(1007, 1000)
+# room_standard_2 = StandardRoom(1008, 1200)
+# room_standard_3 = StandardRoom(1009, 1300)
 
-price_rum_standard_1 = rum_standard_1.calculate_price(11)
-print(price_rum_standard_1)         # 11000  ( 11 nights x 1000 kr)
-print(rum_standard_1)               # Room 7 (Standard Room) - 1000.00 kr/night  [False]
-print()
+# price_room_standard_1 = room_standard_1.calculate_price(11)
+# print(price_room_standard_1)         # 11000  ( 11 nights x 1000 kr)
+# print(room_standard_1)               # Room 7 (Standard Room) - 1000.00 kr/night  [False]
+# print()
 
 
 class SuiteRoom(Room):      # subclass/child
@@ -197,15 +207,23 @@ class SuiteRoom(Room):      # subclass/child
         return f"{super().__str__()} [{jacuzzi_str}]"
 
 
-suite_1 = SuiteRoom(1, 5000)
-suite_2 = SuiteRoom(2, 6000)
-suite_3 = SuiteRoom(3, 7000)
+class RoomNotFoundError(Exception):      # Reserved for the time been - #7 from the Project.
+    """Raised when a specified room number is not found."""    # Classic docstring for Python...
+    pass
 
-price_suite_1 = suite_1.calculate_price(7) # 7 nights
-print(price_suite_1)            # 42000.0   [7 nights * (price+lux_tax)]
-print(suite_1)                  # Room 1 (Suite Room) - 5000.00 kr/night  [with Jacuzzi]
-print()
+
+
+# suite_1 = SuiteRoom(1001, 5000)
+# suite_2 = SuiteRoom(1002, 6000)
+# suite_3 = SuiteRoom(1003, 7000)
+
+# price_suite_1 = suite_1.calculate_price(7) # 7 nights
+# print(price_suite_1)            # 42000.0   [7 nights * (price+lux_tax)]
+# print(suite_1)                  # Room 1 (Suite Room) - 5000.00 kr/night  [with Jacuzzi]
+# print()
 #-----------------------------------------
+
+
 
 
 
@@ -248,6 +266,10 @@ class Booking:
         )
 
 
+class BookingConflictError(Exception):       # Reserved for the time been - #7 from the Project.
+    """Raised when attempting to book an already occupied or reserved room."""  # Classic docstring for Python...
+    pass
+
 
 booking1 = Booking(2609291, customer1, rum1, 3)             # Booking #2609291 [Confirmed] | Ada -> Room 4 | Nights: 3 | Total: 6000.00 kr
 booking2 = Booking(2609292, customerV, suite_1, 7 )         # Booking #2609292 [Confirmed] | Mr.Been -> Room 1 | Nights: 7 | Total: 35700.00 kr
@@ -257,10 +279,200 @@ booking4 = Booking(2609294, customerV_2, suite_3, 21)       # Booking #2609294 [
 bookings = [booking1,booking2, booking3, booking4]
 
 
-for boking in bookings:
-    print(boking)
+# for boking in bookings:
+#     print(boking)
 
-print()
+# print()
+
+#--------------------------------------------------------------
+
+
+#   -   Hotel Manager (the connection between the previous 3 classes)
+
+
+class HotelManager:
+    def __init__(self, hotel_name: str):   # I can add Hotel Astoria, but this is more flexibile way
+        self.hotel_name = hotel_name
+        self.rooms: List[Room] = []             # I make lists for rooms, customers and bookings here
+        self.customers: List[Customer] = []
+        self.bookings: List[Booking] = []
+        self._next_booking_id = 10001        # default booking id number (think: 260928001 - start with date and 001-999 per day max)
+
+    def add_room(self, room: Room):         
+        self.rooms.append(room)
+
+    def add_customer(self, customer: Customer):
+        self.customers.append(customer)
+
+    def find_room(self, room_number: int):
+        for room in self.rooms:
+            if room.room_number == room_number:
+                return room
+        raise RoomNotFoundError(f"Room {room_number} does not exist.")
+
+    def find_customer(self, customer_id: int):
+        for customer in self.customers:
+            if customer.customer_id == customer_id:
+                return customer
+        raise CustomerNotFoundError(f"Customer with ID {customer_id} does not exist.")
+
+    def is_room_available(self, room_number: int):     # yes/no True/Fales -> boolean
+        for booking in self.bookings:
+            if booking.room.room_number == room_number and booking.status in [Booking.STATUS_CONFIRMED, Booking.STATUS_CHECKED_IN]:
+                return False
+        return True
+
+    def create_booking(self, customer_id: int, room_number: int, nights: int):      # returns booking
+        customer = self.find_customer(customer_id)   # 2 objects of classes Customer and Room are created here
+        room = self.find_room(room_number)
+
+        if not self.is_room_available(room_number):   # Prevent conflicting bookings and givs ConflictError
+            raise BookingConflictError(f"Room {room_number} is currently occupied or already reserved.")
+
+        booking = Booking(self._next_booking_id, customer, room, nights)   # creates one object from class Booking
+        self.bookings.append(booking)
+        self._next_booking_id += 1          # think about ... date001 in form int
+        return booking
+
+    def get_available_rooms(self):     # returns a list of available rooms
+        return [room for room in self.rooms if self.is_room_available(room.room_number)]
+
+    def generate_summary(self):             # returns a dictionary here with info about bookings...
+        active_bookings = [b for b in self.bookings if b.status != Booking.STATUS_CANCELLED]
+        total_revenue = sum(b.total_cost for b in active_bookings)
+        return {
+            "total_rooms": len(self.rooms),
+            "available_rooms": len(self.get_available_rooms()),
+            "total_active_bookings": len(active_bookings),
+            "total_revenue": total_revenue
+        }
+
+
+#----------------------------------------------------------------------------------
+#***********************************************************************************
+
+
+# Main part - Interactive part - with demonstration all we have for Hotel Managing - 
+
+
+def start_sample_data(manager: HotelManager):    
+    # Adding rooms
+    manager.add_room(SuiteRoom(1001, 9000.0, includes_jacuzzi=True))
+    manager.add_room(SuiteRoom(1002, 7000.0, includes_jacuzzi=True))
+    manager.add_room(SuiteRoom(1003, 5000.0, includes_jacuzzi=False))
+
+    manager.add_room(Room(1004, 1000.0, has_balcony=False))
+    manager.add_room(Room(1005, 1100.0, has_balcony=False))
+    manager.add_room(Room(1006, 1700.0, has_balcony=True))
+
+    manager.add_room(StandardRoom(1007, 1000.0, has_balcony=False))
+    manager.add_room(StandardRoom(1008, 1300.0, has_balcony=True))
+    manager.add_room(StandardRoom(1009, 1500.0, has_balcony=True))
+    
+    #   suite_1 = SuiteRoom(1001, 5000)
+    #   suite_2 = SuiteRoom(1002, 6000)
+    #   suite_3 = SuiteRoom(1003, 7000)
+
+    #   room1 = Room(1004,2000)
+    #   room2 = Room(1005, 2200)
+    #   room3 = Room(1006,2400)
+
+    #   room_standard_1 = StandardRoom(1007, 1000)
+    #   room_standard_2 = StandardRoom(1008, 1200)
+    #   room_standard_3 = StandardRoom(1009, 1300)
+
+
+    # Adding customers
+    manager.add_customer(Customer(1, "Ada Ericsson", "ada@ericsson.se"))
+    manager.add_customer(Customer(2, "Bob Smith", "bob@smith.com"))
+    manager.add_customer(Customer(3, "Grace Wourth", "gracee@wourth.com"))
+      
+    manager.add_customer(VIPCustomer(4, "Mr.Been", "rowanatkinson@mr_been.com", discount_rate=0.20))
+
+    #   customer1 = Customer(1212, "Ada","ada.ericsson@az.se")
+    #   customer2 = Customer(1313, "Bob", "bob@bob.se") 
+    #   customer3 = Customer(1414, "Grace", "grace@grace.net")
+
+    #   customerV = VIPCustomer(5155, "Mr.Been", "rowanatkinson@mr_been.com",0.15)
+    #   customerV_2 = VIPCustomer(5255, "Mrs Foley", "mf@foley.org")
+
+
+def run_project():
+    manager = HotelManager("Hotel Astoria")
+    start_sample_data(manager)
+
+    print(f"=== Welcome to {manager.hotel_name} Management System ===")
+
+    while True:
+        print("\n   --- Main Menu ---\n")
+        print("1. View All Rooms")
+        print("2. View Available Rooms")
+        print("3. Create New Booking")
+        print("4. View All Bookings")
+        print("5. View System Statistics")
+        print("6. Exit")
+
+        choice = input("Select an option (1-6): ").strip()
+
+        if choice == "1":
+            print("\n-- All Rooms --")
+            for room in manager.rooms:
+                print(room)
+
+        elif choice == "2":
+            print("\n-- Available Rooms --")
+            avail = manager.get_available_rooms()
+            if not avail:
+                print("No rooms currently available.")
+            else:
+                for room in avail:
+                    print(room)
+
+        elif choice == "3":
+            try:
+                c_id = int(input("Enter Customer ID: "))
+                r_num = int(input("Enter Room Number: "))
+                nights = int(input("Enter Number of Nights: "))
+
+                booking = manager.create_booking(c_id, r_num, nights)
+                print(f"\n[SUCCESS] Booking Created Successfully!\n{booking}")
+            except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
+                print(f"\n[ERROR] Failed to create booking: {e}")
+
+        elif choice == "4":
+            print("\n-- All Bookings --")
+            if not manager.bookings:
+                print("No bookings found.")
+            else:
+                for b in manager.bookings:
+                    print(b)
+
+        elif choice == "5":
+            stats = manager.generate_summary()
+            print("\n-- System Summary --")
+            print(f"Total Rooms:          {stats['total_rooms']}")
+            print(f"Available Rooms:      {stats['available_rooms']}")
+            print(f"Active Bookings:      {stats['total_active_bookings']}")
+            print(f"Total Active Revenue: ${stats['total_revenue']:.2f}")
+
+        elif choice == "6":
+            print("\nExiting program. Goodbye!")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+
+if __name__ == "__main__":
+    run_project()
+
+
+
+
+
+
+
+
+
 
 
 
@@ -316,427 +528,6 @@ print()
 # Jim           - level 3
 # Garage        - level 3
 # Kitchen       - level 3
-
-
-
-
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# PARTS FROM EX CODE, that can be useful here.... / for idea / for brandstorm...
-#********************************************************************************
-
-# I need to develope this class for all employies in the hotel.
-
-# class Employee:
-#     def __init__(self, name):
-#         self.name = name
-
-#     def get_information(self):
-#         return f"\nEmployee: {self.name}"
-
-
-# class Developer(Employee):
-#     def __init__(self, name, programming_language="Python"):
-#         super().__init__(name)
-#         self.programming_language = programming_language
-
-#     def write_code(self):
-#         return f"{self.name} is writing {self.programming_language} code."
-
-
-# class Manager(Employee):
-#     def __init__(self, name, department="IT"):
-#         super().__init__(name)
-#         self.department = department
-
-  
-#     def conduct_meeting(self):
-#         return f"{self.name} is conducting a meeting for the {self.department} department.\n"
-
-
-# mngr = Manager("Charlie", "Engineering")
-
-# print(mngr.get_information())
-# print(mngr.conduct_meeting())
-#-------------------------------------------------
-
-
-# - Simple user
-
-# class User:   
-#     def __init__(self, username, email):
-#         self.username = username
-#         self.email = email
-
-
-# class AdminUser(User):
-#     def __init__(self, username, email, admin_level):
-#         super().__init__(username, email)
-#         self.admin_level = admin_level
-
-
-# admin_user = AdminUser("sys_admin", "admin@company.com", "SuperAdmin")
-
-
-# is_admin = isinstance(admin_user, AdminUser)
-# is_user = isinstance(admin_user, User)
-# is_string = isinstance(admin_user, str)
-
-# print("\n--- isinstance() Check Results ---\n")
-# print(f"Is AdminUser: {is_admin}")
-# print(f"Is User:      {is_user}")
-# print(f"Is string:    {is_string}")
-# print()
-#-----------------------------------------------------
-     
-
-
-
-# Primer kada trener/direktor/sef/techer dovodi grupno zaposlene/igrace/studente...
-# class Teacher:
-#     def __init__(self, name):
-#         self.name = name
-
-
-# class Student:
-#     def __init__(self, name, score):
-#         self.name = name
-#         self.score = score
-
-
-# class Course:
-#     def __init__(self, course_name, teacher):
-#         self.course_name = course_name
-#         self.teacher = teacher
-#         self.students = []
-
-#     def add_student(self, student):
-#         self.students.append(student)
-
-
-# teacher1 = Teacher("Prof. Donatello")
-# course1 = Course("Python Programming", teacher1)
-
-# course1.add_student(Student("Ada", 85))
-# course1.add_student(Student("Nada", 95))
-# course1.add_student(Student("Senada", 78))
-
-
-# print(f"\nCourse: {course1.course_name}")
-# print(f"Teacher: {course1.teacher.name}")
-# print("Students:")
-
-# for student in course1.students:
-#     print(student.name)
-# print()
-#----------------------------------------------------
-
-
-
-# class Teacher:
-#     def __init__(self, name):
-#         self.name = name
-
-
-# class Student:
-#     def __init__(self, name, score):
-#         self.name = name
-#         self.score = score
-
-#     def get_status(self, passing_score=70):
-#         # a method that returns "PASS" or "FAIL"
-#         if self.score >= passing_score:
-#             return "PASS"
-#         else:
-#             return "FAIL"
-
-
-# class Course:
-#     def __init__(self, course_name, teacher):
-#         self.course_name = course_name
-#         self.teacher = teacher
-#         self.students = []
-
-#     def add_student(self, student):
-#         self.students.append(student)
-
-
-#     def display_course_info(self):
-#         print("*" * 50)
-#         print(f"        COURSE:  {self.course_name}")
-#         print(f"        TEACHER: {self.teacher.name}")
-#         print("-" * 50)
-#         print(" STUDENTS:        SCORE:         PASS/FAIL:")
-#         if not self.students:
-#             print("  (No students on the course)")
-#         else:
-#             for student in self.students:
-#                 print(f" • {student.name:<15} Score: {student.score:<9} {student.get_status()}")
-#             print("-" * 50)
-#         print("*" * 50 + "\n")
-
-#  #end of 3 class definition
-
-
-#  # def 2 objects - class Teacher
-# teacher_python = Teacher("Prof. Donatello")
-# teacher_math = Teacher("Dr Gaus")
-
-#  # def 2 objects - class Course
-# python_course = Course("Python OOP Fundamentals", teacher_python)
-# math_course = Course("Komplex Mathematics", teacher_math)
-
-#  # def 5 objects - class Student
-# s1 = Student("Ada", 85)
-# s2 = Student("Senada", 65)
-# s3 = Student("Nada", 95)
-# s4 = Student("Rada", 78)
-# s5 = Student("Serenada", 72)
-
-#  # schedule of students by courses (py and math)
-# python_course.add_student(s1)
-# python_course.add_student(s2)
-# python_course.add_student(s3)
-
-# math_course.add_student(s1)
-# math_course.add_student(s4)
-# math_course.add_student(s5)
-
-#  # test - printing reports by courses
-# python_course.display_course_info()
-# math_course.display_course_info()
-#----------------------------------------------------------
-
-
-# Nastavak:  Ispis onih studenata koji su prosli....
-# passing_students = course.get_passing_students()
-
-# print(f"\nTotal students: {course.get_student_count()}")
-# print(f"Students who passed ({len(passing_students)}):")
-
-# for student in passing_students:
-#     print(f"- {student.name}: {student.score} points")
-# print()
-#---------
-# 
-# ---------------------------------------------------------------------------
-
-#   Add validation somewhere in your program using ValueError. Chose a validation that makes sense.
-
-# class Student:
-#     def __init__(self, name, score):
-#         self.name = name
-        
-#         # Adding validation here: Check score for students in range [0, 100]
-#         if not isinstance(score, (int, float)):
-#             raise ValueError("Score must be a number (int or float).")
-        
-#         if score < 0 or score > 100:
-#             raise ValueError(f"Invalid score ({score}). Score must be between 0 and 100.") # ValueError
-            
-#         self.score = score
-
-#     def get_status(self):
-#         return "PASS" if self.score >= 50 else "FAIL"
-#------------------------------------------------------------------------------
-
-
-
-
-
-#******************************************************************************************************
-#  PART 2 - THINGS AND STAF...
-#******************************************************************************************************
-
-
-
-
-
-
-# EmailNotification:
-#     def __init__(self, email_address):
-#         self.recipient = email_address
-
-#     def get_channel(self):
-#         return f"Channel: Email ({self.recipient})"
-
-#     def send(self, message):
-#         return f"[EMAIL] Sent to {self.recipient} via SMTP server: '{message}'"
-
-
-# class SMSNotification:
-#     def __init__(self, phone_number):
-#         self.recipient = phone_number
-
-#     def get_channel(self):
-#         return f"Channel: SMS ({self.recipient})"
-
-#     def send(self, message):
-#         return f"[SMS]   Sent to {self.recipient} via Telia Gateway: '{message}'"
-
-
-# class PushNotification:
-#     def __init__(self, device_token):
-#         self.recipient = device_token
-
-#     def get_channel(self):
-#         return f"Channel: Push Notification ({self.recipient})"
-
-#     def send(self, message):
-#         return f"[PUSH]  Sent to device {self.recipient} via P-Service: '{message}'\n"
-
-
-# # Testiranje Part A.2
-# email = EmailNotification("user@lexicon.com")
-# sms = SMSNotification("+46731234567")
-# push = PushNotification("token_abf123")
-
-# print("\n               --- Testing send() methods --- \n")
-# print(email.send("Your LAB for September is ready."))
-# print(sms.send("Your security code is 1245."))
-# print(push.send("You have a new direct message!"))
-#------------------------------------------------------------------
-
-
-
-# class Document:
-#     def __init__(self, title):
-#         self.title = title
-
-#     def describe(self):
-#         return f"\nDocument Title: '{self.title}',\n"
-
-
-# doc = Document("General Specification")
-# print(doc.describe())
-#-----------------------------------------------------
-
-
-
-# class Device:
-#     def __init__(self, brand, year):
-#         self.brand = brand
-#         self.year = year
-
-
-# device = Device("Dell", 2023)
-# print(f"Brand: {device.brand}, Year: {device.year}")
-#--------------------------------------------------------------
-
-
-
-# class Account:
-#     def __init__(self, owner, balance):
-#         self.owner = owner
-#         self.balance = balance
-
-  
-# account = Account("Ada", 1000.0)
-# print(f"Owner: {account.owner} | Balance: {account.balance}")
-#----------------------------------------------------------
-
-
-
-
-# class BankAccount:
-#     def __init__(self, owner, balance):
-#         self.owner = owner
-#         self.balance = balance
-
-#     def deposit(self, amount):
-#         self.balance += amount
-
-#     def withdraw(self, amount):
-#         if amount > self.balance:
-#             raise ValueError("Not enough money for this withdrawal.")
-#         self.balance -= amount
-
-# account = BankAccount("Ada", 2000)
-
-# account.deposit(700)
-# print(f"\n Balance after deposit: {account.balance}")
-
-# account.withdraw(6000)
-# print(f" Balance after withdrawal: {account.balance}\n") #Warning the withdraw amount is larger then balance!
-#-----------------------------------------------------------------------------------------------------------------
-
-
-
-# class Product:
-#     def __init__(self, name, price):
-#         self.name = name    
-#         self.price = price  
-
-
-# product1 = Product("Laptop", 10000.0)  #  Objekt - instance -  classe Product
-# product2 = Product("Mouse", 250.0)
-
-
-# print(f"\nProduct 1: {product1.name} | Price: {product1.price} SEK")
-# print(f"Product 2: {product2.name}  | Price:   {product2.price} SEK\n")
-#--------------------------------------------------------------------------------
-
-
-
-# class Product:
-#     tax_rate = 0.25     # Start tax rate
-
-#     def __init__(self, name, price):
-#         self.name = name
-#         self.price = price
-
-#     def price_with_tax(self):
-#         return self.price * (1 + self.tax_rate)
-
-
-# product1 = Product("Laptop", 8000.0)
-# product2 = Product("Mouse", 300.0)
-# product3 = Product("Keyboard", 500.0)
-
-# print("\n--- Before change (tax_rate = 0.25) ---\n")
-# print(f"{product1.name}: {product1.price_with_tax():.2f} kr")
-# print(f"{product2.name}: {product2.price_with_tax():.2f} kr")
-# print(f"{product3.name}: {product3.price_with_tax():.2f} kr")
-
-
-# Product.tax_rate = 0.20   # Changing tax rate
-
-# print("\n--- After change - Product.tax_rate = 0.20 ---\n")
-# print(f"{product1.name}: {product1.price_with_tax():.2f} kr")
-# print(f"{product2.name}: {product2.price_with_tax():.2f} kr")
-# print(f"{product3.name}: {product3.price_with_tax():.2f} kr\n")
-#-----------------------------------------------------------------------
-
-
-#*******************************************************************************************************
-# PART 3 - Places   - for VERY VERY BIG PROJECT.....
-#*******************************************************************************************************
-
-# Reception     - base level
-# Room          - base level
-# Floor         - base level
-
-# Apartman      - level 2
-# Restaurang    - level 2
-
-# Elevator(Hiss)- level 3
-# Pool          - level 3
-# Jim           - level 3
-# Garage        - level 3
-# Kitchen       - level 3
-
-
-
-
-
-
-
-
-
-#*******************************************************************************************************
-#  LAB N                         Part G -                                           *
-#*******************************************************************************************************
-
-
 
 
 # **********************************  END of PROJECT ********************************************************
