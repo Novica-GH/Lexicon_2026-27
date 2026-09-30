@@ -150,7 +150,7 @@ class Room:
         return self.base_price_per_night * nights
 
     def get_room_type(self):
-        return " Room in Hotel Astoria"
+        return "Executive/Family Room"
 
     def __str__(self):   # def for print / method - return always string
         return f"Room {self.room_number} ({self.get_room_type()}) - {self.base_price_per_night:.2f} kr/night "
@@ -168,16 +168,16 @@ class Room:
 
 
 class StandardRoom(Room):       # subclass/child
-    def __init__(self, room_number: int, base_price_per_night: float, sea_view: bool = False):
+    def __init__(self, room_number: int, base_price_per_night: float, has_sea_view: bool = False):
         super().__init__(room_number, base_price_per_night)
-        self.sea_view = sea_view
+        self.sea_view = has_sea_view
 
     def get_room_type(self):
         return "Standard Room"
 
     def __str__(self):
-        sea_view_str = "with Sea view" if self.sea_view else "Park view"
-        return f"{super().__str__()} [{self.sea_view}]"
+        self.has_sea_view = "With sea view" if self.sea_view else "Park view"
+        return f"{super().__str__()} [{self.has_sea_view}]"
 
 
 # room_standard_1 = StandardRoom(1007, 1000)
@@ -271,12 +271,12 @@ class BookingConflictError(Exception):       # Reserved for the time been - #7 f
     pass
 
 
-booking1 = Booking(2609291, customer1, rum1, 3)             # Booking #2609291 [Confirmed] | Ada -> Room 4 | Nights: 3 | Total: 6000.00 kr
-booking2 = Booking(2609292, customerV, suite_1, 7 )         # Booking #2609292 [Confirmed] | Mr.Been -> Room 1 | Nights: 7 | Total: 35700.00 kr
-booking3 = Booking(2609293, customer2, rum_standard_2, 4)   # Booking #2609293 [Confirmed] | Bob -> Room 8 | Nights: 4 | Total: 4800.00 kr
-booking4 = Booking(2609294, customerV_2, suite_3, 21)       # Booking #2609294 [Confirmed] | Mrs Foley -> Room 3 | Nights: 21 | Total: 142800.00 kr
+# booking1 = Booking(2609291, customer1, rum1, 3)             # Booking #2609291 [Confirmed] | Ada -> Room 4 | Nights: 3 | Total: 6000.00 kr
+# booking2 = Booking(2609292, customerV, suite_1, 7 )         # Booking #2609292 [Confirmed] | Mr.Been -> Room 1 | Nights: 7 | Total: 35700.00 kr
+# booking3 = Booking(2609293, customer2, rum_standard_2, 4)   # Booking #2609293 [Confirmed] | Bob -> Room 8 | Nights: 4 | Total: 4800.00 kr
+# booking4 = Booking(2609294, customerV_2, suite_3, 21)       # Booking #2609294 [Confirmed] | Mrs Foley -> Room 3 | Nights: 21 | Total: 142800.00 kr
 
-bookings = [booking1,booking2, booking3, booking4]
+# bookings = [booking1,booking2, booking3, booking4]
 
 
 # for boking in bookings:
@@ -361,13 +361,13 @@ def start_sample_data(manager: HotelManager):
     manager.add_room(SuiteRoom(1002, 7000.0, includes_jacuzzi=True))
     manager.add_room(SuiteRoom(1003, 5000.0, includes_jacuzzi=False))
 
-    manager.add_room(Room(1004, 1000.0, has_balcony=False))
-    manager.add_room(Room(1005, 1100.0, has_balcony=False))
-    manager.add_room(Room(1006, 1700.0, has_balcony=True))
+    manager.add_room(Room(1004, 1000.0))
+    manager.add_room(Room(1005, 1100.0))
+    manager.add_room(Room(1006, 1700.0))
 
-    manager.add_room(StandardRoom(1007, 1000.0, has_balcony=False))
-    manager.add_room(StandardRoom(1008, 1300.0, has_balcony=True))
-    manager.add_room(StandardRoom(1009, 1500.0, has_balcony=True))
+    manager.add_room(StandardRoom(1007, 1000.0, has_sea_view=False))
+    manager.add_room(StandardRoom(1008, 1300.0, has_sea_view=True))
+    manager.add_room(StandardRoom(1009, 1500.0, has_sea_view=True))
     
     #   suite_1 = SuiteRoom(1001, 5000)
     #   suite_2 = SuiteRoom(1002, 6000)
@@ -401,7 +401,7 @@ def run_project():
     manager = HotelManager("Hotel Astoria")
     start_sample_data(manager)
 
-    print(f"=== Welcome to {manager.hotel_name} Management System ===")
+    print(f"\n    === Welcome to {manager.hotel_name} Management System ===")
 
     while True:
         print("\n   --- Main Menu ---\n")
@@ -412,18 +412,18 @@ def run_project():
         print("5. View System Statistics")
         print("6. Exit")
 
-        choice = input("Select an option (1-6): ").strip()
+        choice = input(f"\nSelect an option (1-6): \n").strip()
 
         if choice == "1":
-            print("\n-- All Rooms --")
+            print(f"\n              --- All Rooms in {manager.hotel_name}  ---\n")
             for room in manager.rooms:
                 print(room)
 
         elif choice == "2":
-            print("\n-- Available Rooms --")
+            print(f"\n              --- Available Rooms in {manager.hotel_name} ---\n")
             avail = manager.get_available_rooms()
             if not avail:
-                print("No rooms currently available.")
+                print(f"\nSorry, no rooms currently available in {manager.hotel_name}.\n")
             else:
                 for room in avail:
                     print(room)
@@ -453,13 +453,14 @@ def run_project():
             print(f"Total Rooms:          {stats['total_rooms']}")
             print(f"Available Rooms:      {stats['available_rooms']}")
             print(f"Active Bookings:      {stats['total_active_bookings']}")
-            print(f"Total Active Revenue: ${stats['total_revenue']:.2f}")
+            print(f"Total Active Revenue: {stats['total_revenue']:.2f} kr")
 
         elif choice == "6":
-            print("\nExiting program. Goodbye!")
+            print(f"\n --- Exiting program. Thank you for your visit. Goodbye and welcome again to {manager.hotel_name}!\n")
             break
         else:
             print("Invalid option. Please try again.")
+
 
 
 if __name__ == "__main__":
