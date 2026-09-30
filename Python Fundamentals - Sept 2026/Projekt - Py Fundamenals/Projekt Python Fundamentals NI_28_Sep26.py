@@ -1,7 +1,7 @@
 #********************************************************************************************
 #  Novica Ivkovic                                                                           *
 #  Cours: System Developer Python and AI                                                    *
-#  September 28 2026 -                                                                      *
+#  September 28 - Oktober 2 2026                                                            *
 #                              P R O J E C T - Python Fundamentals                          *
 #                                                                                           *
 #            Python Fundamentals - slut PROJECT - Option 3 - Booking System (HOTEL)         *
@@ -59,14 +59,14 @@
 #   5.  Work With Collections of Data or Objects
 #   6.  Include Meaningful Program Logic
 #   7.  Handle Invalid or Unreasonable Actions   
-#   8.  Organize the Project Into Multiple Python Modules    
-#   9.  Make the Program Runnable and Demonstrable   
+#   8.  Organize the Project Into Multiple Python Modules   # day 4 - to build it from one py.file that works and is tested (day 3) 
+#   9.  Make the Program Runnable and Demonstrable   day 3 (for one file project) - day 4 for multiple py MODULES.
 #   10. Use Git Throughout the Project 
 #
-#       -   Add basic booking functionality
-#       -   Prevent conflicting bookings  
-#       -   Add visitor interactions  
-#       -   Implement character  health system          
+#       -   Add basic booking functionality     - OK, done 
+#       -   Prevent conflicting bookings        - OK, done 
+#       -   Add visitor interactions            - Ok, done
+#       -   Implement character  health system  - OK, done        
 #       -   Refactor shared behaviour       
 #       -   Fix negative enery bug   
 #
@@ -81,7 +81,7 @@
 # For the begining I need just: 
 #
 #   -   Customer (Standard/VIP or [Business/Leisure (Turists) or Tour Groups/Leisure Groups/Transit guests)]
-#   -   Room (Standard room/Suite )
+#   -   Room (Standard room/Suite | Deluxe/Executive Lounge/Bussines/Family room  )
 #   -   Booking ()
 #   -   Hotel Manager (the connection between the previous 3 classes)
 #   -   Main part - Interactive part - with demonstration all we have for Hotel Managing - 
@@ -152,9 +152,9 @@ class Room:
     def get_room_type(self):
         return "Executive/Family Room"
 
-    def __str__(self):   # def for print / method - return always string
-        return f"Room {self.room_number} ({self.get_room_type()}) - {self.base_price_per_night:.2f} kr/night "
-
+    def __str__(self):   # def for print / method - return always string   
+        return f"Room {self.room_number} - {self.get_room_type().ljust(21)} - {self.base_price_per_night:.2f} kr/night "
+#                                        # fine print adjustments methods: .ljust(n), .rjust(n) and .center(n)
 # print()
 # room1 = Room(1004,2000)
 # room2 = Room(1005, 2200)
@@ -261,7 +261,7 @@ class Booking:
     def __str__(self):
         return (
             f"Booking #{self.booking_id} [{self.status}] | "
-            f"{self.customer.name} -> Room {self.room.room_number} | "
+            f"{self.customer.name.ljust(15)} -> Room {self.room.room_number} | "
             f"Nights: {self.nights} | Total: {self.total_cost:.2f} kr"
         )
 
@@ -334,6 +334,26 @@ class HotelManager:
         self._next_booking_id += 1          # think about ... date001 in form int
         return booking
 
+    #---------------------------------------DELETE
+    _(self, booking_id: int, customer: Customer, room: Room, nights: int):
+
+
+    def delete_booking(self, booking_id: int, customer: Customer, room: Room, nights: int):      # delete boking if is not checkedIn.
+        customer = self.find_customer(customer_id)   # 2 objects of classes Customer and Room are created here
+        room = self.find_room(room_number)
+        booking = Booking(, customer, room, nights) 
+
+        if self.is_room_available(room_number):   # Inform if room is available -ConflictError
+            raise BookingConflictError(f"Room {room_number} is avalilable!")
+        elif not self.find_customer(customer_id):
+            raise CustomerNotFoundError(f"Customer with ID {customer_id} does not exist.")
+        else:
+            if booking in self.bookings:
+                self.bookings.remove(booking)   # delete one object from class Booking
+                return booking
+
+    #----------------------------------    
+
     def get_available_rooms(self):     # returns a list of available rooms
         return [room for room in self.rooms if self.is_room_available(room.room_number)]
 
@@ -355,7 +375,7 @@ class HotelManager:
 # Main part - Interactive part - with demonstration all we have for Hotel Managing - 
 
 
-def start_sample_data(manager: HotelManager):    
+def start_test_data(manager: HotelManager):    
     # Adding rooms
     manager.add_room(SuiteRoom(1001, 9000.0, includes_jacuzzi=True))
     manager.add_room(SuiteRoom(1002, 7000.0, includes_jacuzzi=True))
@@ -399,27 +419,31 @@ def start_sample_data(manager: HotelManager):
 
 def run_project():
     manager = HotelManager("Hotel Astoria")
-    start_sample_data(manager)
+    start_test_data(manager)
 
-    print(f"\n    === Welcome to {manager.hotel_name} Management System ===")
+    print("============================================================")
+    print(f"\n    === Welcome to {manager.hotel_name} Management System ===-\n")
 
     while True:
-        print("\n   --- Main Menu ---\n")
-        print("1. View All Rooms")
-        print("2. View Available Rooms")
-        print("3. Create New Booking")
-        print("4. View All Bookings")
-        print("5. View System Statistics")
-        print("6. Exit")
+        print("============================================================")
+        print("\n                    --- Main Menu ---\n")
+        print("                 1. View All Rooms")
+        print("                 2. View Available Rooms")
+        print("                 3. Create New Booking")
+        print("                 4. View All Bookings")
+        print("                 5. View System Statistics")
+        print("                 6. Exit")
 
         choice = input(f"\nSelect an option (1-6): \n").strip()
 
-        if choice == "1":
+        if choice == "1":           #  1. View All Rooms
+            print("============================================================")
             print(f"\n              --- All Rooms in {manager.hotel_name}  ---\n")
             for room in manager.rooms:
                 print(room)
 
-        elif choice == "2":
+        elif choice == "2":     #  2. View Available Rooms
+            print("============================================================")
             print(f"\n              --- Available Rooms in {manager.hotel_name} ---\n")
             avail = manager.get_available_rooms()
             if not avail:
@@ -428,43 +452,65 @@ def run_project():
                 for room in avail:
                     print(room)
 
-        elif choice == "3":
+        elif choice == "3":         # 3. Create New Booking
             try:
                 c_id = int(input("Enter Customer ID: "))
                 r_num = int(input("Enter Room Number: "))
                 nights = int(input("Enter Number of Nights: "))
 
                 booking = manager.create_booking(c_id, r_num, nights)
+                print("============================================================")
                 print(f"\n[SUCCESS] Booking Created Successfully!\n{booking}")
             except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
+                print("============================================================")
                 print(f"\n[ERROR] Failed to create booking: {e}")
 
-        elif choice == "4":
-            print("\n-- All Bookings --")
+    #-------------------------------------DELETE.....
+
+        elif choice == "4":         # 4. Delete Booking
+                    try:
+                        c_id = int(input("Enter Customer ID you want to delete: "))
+                        r_num = int(input("Enter Room Number: "))
+                        nights = int(input("Enter Number of Nights: "))
+        
+                        booking = manager.delete_booking(c_id, r_num, nights)
+                        print("============================================================")
+                        print(f"\n[SUCCESS] Booking Created Successfully!\n{booking}")
+                    except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
+                        print("============================================================")
+                        print(f"\n[ERROR] Failed to create booking: {e}")
+
+
+        elif choice == "5":         #  5. View All Bookings
+            print("============================================================")
+            print(f"\n  --- All Bookings in {manager.hotel_name}  ---\n")
             if not manager.bookings:
-                print("No bookings found.")
+                print(f"No bookings found!\n")
             else:
                 for b in manager.bookings:
                     print(b)
 
-        elif choice == "5":
+        elif choice == "6":         #  6. View System Statistics
+            print("============================================================")
             stats = manager.generate_summary()
-            print("\n-- System Summary --")
+            print(f"\n   --- System Summary in {manager.hotel_name}  ---\n")
             print(f"Total Rooms:          {stats['total_rooms']}")
             print(f"Available Rooms:      {stats['available_rooms']}")
             print(f"Active Bookings:      {stats['total_active_bookings']}")
             print(f"Total Active Revenue: {stats['total_revenue']:.2f} kr")
 
-        elif choice == "6":
-            print(f"\n --- Exiting program. Thank you for your visit. Goodbye and welcome again to {manager.hotel_name}!\n")
+        elif choice == "7":         # 7. Exit
+            print("======================================================================================================")
+            print(f"\n ... Exiting program. Thank you for your visit. Goodbye and welcome again to {manager.hotel_name}!\n")
+            print(f"======================================================================================================\n")
             break
         else:
+            print("============================================================")
             print("Invalid option. Please try again.")
 
 
-
-if __name__ == "__main__":
-    run_project()
+# if __name__ == "__main__":
+run_project()
 
 
 
