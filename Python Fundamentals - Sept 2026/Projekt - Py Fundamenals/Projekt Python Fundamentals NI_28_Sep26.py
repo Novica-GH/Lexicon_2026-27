@@ -5,7 +5,8 @@
 #                              P R O J E C T - Python Fundamentals                          *
 #                                                                                           *
 #            Python Fundamentals - slut PROJECT - Option 3 - Booking System (HOTEL)         *
-#                                                                                           *
+#                       
+#          PART I - All in one .py file (teporary sollution before - Module solution)       *
 #                                                                                           *
 #********************************************************************************************
 
@@ -78,7 +79,8 @@
 #                                  HOTEL - ASTORIA - Managing booking Project (Reception++)
 #************************************************************************************************
 
-# For the begining I need just: 
+# For the begining I am goint to do everything in this .py filse. To test everything I want (funktionality), 
+#   and then to separate i separate parts - modules and try to all project works again (via moduler)...
 #
 #   -   Customer (Standard/VIP or [Business/Leisure (Turists) or Tour Groups/Leisure Groups/Transit guests)]
 #   -   Room (Standard room/Suite | Deluxe/Executive Lounge/Bussines/Family room  )
@@ -227,14 +229,15 @@ class RoomNotFoundError(Exception):      # Reserved for the time been - #7 from 
 
 
 
-class Booking:
-    STATUS_CONFIRMED = "Confirmed"
-    STATUS_CHECKED_IN = "Checked In"
-    STATUS_CANCELLED = "Cancelled"
+class Booking:                          # Create next 4 lists down for better statistics... More oporynity in MENY:   (DONE):
+    STATUS_CONFIRMED  = "Confirmed"        # Save all confirmed bookings in one separat list:    confirmed_bookings      NO
+    STATUS_CHECKED_IN = "Checked In"       # Save all checked in bookings in one separat list:   checked_in_bookings     NO
+    STATUS_CANCELLED  = "Cancelled"        # Save all canceled bookings in one separat list:     canceled_bookings       NO
+    STATUS_DELETED    = "Deleted"          # Save all deleted bookings in one separat list:      deleted_bookings        NO
 
     def __init__(self, booking_id: int, customer: Customer, room: Room, nights: int):
         if nights <= 0:
-            raise ValueError("Booking nights must be greater than zero.")  # Varning - ValueError
+            raise ValueError("Booking nights must be greater than zero.")  # Varning for invalid nights number - ValueError
 
         self.booking_id = booking_id
         self.customer = customer
@@ -257,6 +260,11 @@ class Booking:
         if self.status == self.STATUS_CHECKED_IN:
             raise ValueError("Cannot cancel a booking that is already checked in.")
         self.status = self.STATUS_CANCELLED
+
+    def deleted(self):                              # Both canceled and deleted should be deleted from booking, but it happends in defferent situations...
+        if self.status == self.STATUS_CHECKED_IN:
+            raise ValueError("Cannot delete a booking that is checked in and not payed.")
+        self.status = self.STATUS_DELETED
 
     def __str__(self):
         return (
@@ -287,21 +295,25 @@ class BookingConflictError(Exception):       # Reserved for the time been - #7 f
 #--------------------------------------------------------------
 
 
-#   -   Hotel Manager (the connection between the previous 3 classes)
+#   -   Hotel Manager (the connection between the previous 3 classes AND the main after)
 
 
 class HotelManager:
-    def __init__(self, hotel_name: str):   # I can add Hotel Astoria, but this is more flexibile way
+    def __init__(self, hotel_name: str):   # I can add Hotel Astoria here now, but this is more flexibile way
         self.hotel_name = hotel_name
-        self.rooms: List[Room] = []             # I make lists for rooms, customers and bookings here
+        self.rooms:     List[Room] = []             # I make lists for rooms, customers and bookings here
         self.customers: List[Customer] = []
-        self.bookings: List[Booking] = []
-        self._next_booking_id = 10001        # default booking id number (think: 260928001 - start with date and 001-999 per day max)
+        self.bookings:  List[Booking] = []
+        self.confirmed_bookings:  List[Booking] = []    # More oporynity in new extra MENY: for extra statistics
+        self.checked_in_bookings: List[Booking] = []    #               -   ||  -
+        self.canceled_bookings:   List[Booking] = []    #               -   ||  -
+        self.deleted_bookings:    List[Booking] = []    #               -   ||  -
+        self._next_booking_id = 10001        # default booking id number (idea:260928001 - start with date and 001-999 per day max) for Next version 2.0
 
-    def add_room(self, room: Room):         
-        self.rooms.append(room)
+    def add_room(self, room: Room):             # This method DO something (adds room in the room list) - not return something...
+        self.rooms.append(room)                 # This is Action method (if i even write return - it is going to be returned None, that means that action is completed!)
 
-    def add_customer(self, customer: Customer):
+    def add_customer(self, customer: Customer):  # Also Action method thad adds customers in the list of customers
         self.customers.append(customer)
 
     def find_room(self, room_number: int):
@@ -315,6 +327,21 @@ class HotelManager:
             if customer.customer_id == customer_id:
                 return customer
         raise CustomerNotFoundError(f"Customer with ID {customer_id} does not exist.")
+    
+
+    def find_booking(self, booking_id: int):            # Find booking
+            for booking in self.bookings:
+                if booking.booking_id == booking_id:
+                    return booking
+            raise BookingConflictError(f"Booking {booking_id} does not exist.")
+    
+
+    def find_nights(self, nights: int):            # Find nights
+            for night in self.bookings:
+                if night.nights == nights:
+                    return night
+            raise BookingConflictError(f"Booking {nights} does not exist.")
+    
 
     def is_room_available(self, room_number: int):     # yes/no True/Fales -> boolean
         for booking in self.bookings:
@@ -330,18 +357,19 @@ class HotelManager:
             raise BookingConflictError(f"Room {room_number} is currently occupied or already reserved.")
 
         booking = Booking(self._next_booking_id, customer, room, nights)   # creates one object from class Booking
-        self.bookings.append(booking)
-        self._next_booking_id += 1          # think about ... date001 in form int
+        self.bookings.append(booking)       # Action - adds one new booking in the booking list
+        self._next_booking_id += 1          # think about ... date001 in form int/
         return booking
 
     #---------------------------------------DELETE
-    _(self, booking_id: int, customer: Customer, room: Room, nights: int):
+    
+    def delete_booking(self, booking_id: int, customer: Customer, room: Room, nights: int):      # deletes boking if is not checkedIn.
+        booking_d = self.find_booking(booking_id)
+        customer_d = self.find_customer(customer)   # 2 objects of classes Customer and Room are created here
+        room_d = self.find_room(room)
+        nights_d = self.find_nights(nights)
 
-
-    def delete_booking(self, booking_id: int, customer: Customer, room: Room, nights: int):      # delete boking if is not checkedIn.
-        customer = self.find_customer(customer_id)   # 2 objects of classes Customer and Room are created here
-        room = self.find_room(room_number)
-        booking = Booking(, customer, room, nights) 
+        booking = Booking(booking_d, customer_d, room_d, nights_d) 
 
         if self.is_room_available(room_number):   # Inform if room is available -ConflictError
             raise BookingConflictError(f"Room {room_number} is avalilable!")
@@ -402,7 +430,7 @@ def start_test_data(manager: HotelManager):
     #   room_standard_3 = StandardRoom(1009, 1300)
 
 
-    # Adding customers
+    # Adding customers ()
     manager.add_customer(Customer(1, "Ada Ericsson", "ada@ericsson.se"))
     manager.add_customer(Customer(2, "Bob Smith", "bob@smith.com"))
     manager.add_customer(Customer(3, "Grace Wourth", "gracee@wourth.com"))
@@ -430,9 +458,10 @@ def run_project():
         print("                 1. View All Rooms")
         print("                 2. View Available Rooms")
         print("                 3. Create New Booking")
-        print("                 4. View All Bookings")
-        print("                 5. View System Statistics")
-        print("                 6. Exit")
+        print("                 4. Delete Booking")
+        print("                 5. View All Bookings")
+        print("                 6. View System Statistics")
+        print("                 7. Exit")
 
         choice = input(f"\nSelect an option (1-6): \n").strip()
 
@@ -468,17 +497,18 @@ def run_project():
     #-------------------------------------DELETE.....
 
         elif choice == "4":         # 4. Delete Booking
-                    try:
-                        c_id = int(input("Enter Customer ID you want to delete: "))
-                        r_num = int(input("Enter Room Number: "))
-                        nights = int(input("Enter Number of Nights: "))
+            try:                
+                b_id = int(input("Enter Booking ID you want to delete: "))
+                c_id = int(input("Enter Customer ID: "))
+                r_num = int(input("Enter Room Number: "))
+                nights = int(input("Enter Number of Nights: "))
         
-                        booking = manager.delete_booking(c_id, r_num, nights)
-                        print("============================================================")
-                        print(f"\n[SUCCESS] Booking Created Successfully!\n{booking}")
-                    except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
-                        print("============================================================")
-                        print(f"\n[ERROR] Failed to create booking: {e}")
+                booking = manager.delete_booking(b_id, c_id, r_num, nights)
+                print("============================================================")
+                print(f"\n[SUCCESS] Booking Deleted Successfully!\n{booking}")
+            except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
+                print("============================================================")
+                print(f"\n[ERROR] Failed to delete booking: {e}")
 
 
         elif choice == "5":         #  5. View All Bookings
