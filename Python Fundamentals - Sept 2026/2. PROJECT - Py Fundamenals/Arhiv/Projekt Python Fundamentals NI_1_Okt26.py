@@ -332,15 +332,15 @@ class HotelManager:
     def find_booking(self, booking_id: int):            # Find booking
             for booking in self.bookings:
                 if booking.booking_id == booking_id:
-                    return booking
+                    return True
             raise BookingConflictError(f"Booking {booking_id} does not exist.")
     
 
     def find_nights(self, nights: int):            # Find nights
             for night in self.bookings:
                 if night.nights == nights:
-                    return night
-            raise BookingConflictError(f"Booking {nights} does not exist.")
+                    return True
+            raise BookingConflictError(f"Booking for {nights} nights does not exist.")
     
 
     def is_room_available(self, room_number: int):     # yes/no True/Fales -> boolean
@@ -364,14 +364,15 @@ class HotelManager:
     #---------------------------------------DELETE
     
     def delete_booking(self, booking_id: int, customer: Customer, room: Room, nights: int):      # deletes boking if is not checkedIn.
-        booking_d = self.find_booking(booking_id)
+        booking_ok = self.find_booking(booking_id)
         customer_d = self.find_customer(customer)   # 2 objects of classes Customer and Room are created here
         room_d = self.find_room(room)
-        nights_d = self.find_nights(nights)
+        nights_ok = self.find_nights(nights)
 
-        booking = Booking(booking_d, customer_d, room_d, nights_d) 
+        booking = Booking(booking_id, customer, room, nights) 
 
-        if self.is_room_available(room_number):   # Inform if room is available -ConflictError
+        if booking_ok and (customer == customer_d) and (room == room_d) and nights_ok:
+            self.bookings 
             raise BookingConflictError(f"Room {room_number} is avalilable!")
         elif not self.find_customer(customer_id):
             raise CustomerNotFoundError(f"Customer with ID {customer_id} does not exist.")
