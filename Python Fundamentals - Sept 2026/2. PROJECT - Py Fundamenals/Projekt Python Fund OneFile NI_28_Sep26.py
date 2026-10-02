@@ -329,17 +329,29 @@ class HotelManager:
         raise CustomerNotFoundError(f"Customer with ID {customer_id} does not exist.")
     
 
-    def find_booking(self, booking_id: int):            # Find booking
+    def find_booking(self, booking_id: int):            # Find booking                                      ## Cancel PART ###                
             for booking in self.bookings:
                 if booking.booking_id == booking_id:
-                    return True
-            raise BookingConflictError(f"Booking {booking_id} does not exist.")
+                    return booking
+            raise BookingConflictError(f"Booking with ID {booking_id} does not exist.")
+
+
+    def cancel_booking(self, booking_id: int):
+        booking = self.find_booking(booking_id)
+        booking.cancel()            # Call .cancel() from Booking Class and change status to 'Cancelled'
+        return booking
+
+    def check_in_booking(self, booking_id: int):
+        booking = self.find_booking(booking_id)
+        booking.check_in()           # Call .check_in() from Booking Class and change status to 'Checked In'
+        return booking                                                                                       ## END of Cancel PART...                           
+    
     
 
     def find_nights(self, nights: int):            # Find nights
             for night in self.bookings:
                 if night.nights == nights:
-                    return True
+                    return night                    # Or boolean??
             raise BookingConflictError(f"Booking for {nights} nights does not exist.")
     
 
@@ -440,10 +452,14 @@ def run_project():
         print("\n                    --- Main Menu ---\n")
         print("                 1. View All Rooms")
         print("                 2. View Available Rooms")
-        print("                 3. Create New Booking")
-        print("                 4. View All Bookings")
-        print("                 5. View System Statistics")
-        print("                 6. Exit")
+        print("                 3. View All Customers")
+        print("                 4. Create New Booking")
+        print("                 5. View All Bookings")
+        print("                 6. Check-In Booking")
+        print("                 7. Cancel Booking")
+        print("                 8. Vie")
+        print("                 9. View System Statistics")
+        print("                 0. Exit")
 
         choice = input(f"\nSelect an option (1-6): \n").strip()
 
