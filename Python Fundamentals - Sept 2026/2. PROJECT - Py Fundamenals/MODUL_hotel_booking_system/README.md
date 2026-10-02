@@ -19,4 +19,4 @@ A modular, CLI-based Python application designed to manage hotel room reservatio
 3. Open your terminal or command prompt in the root project folder (`MODUL_hotel_booking_syste`).
 4. Run the application  - using the terminal (Ctrl+ö)
 ```bash
-python main/main.py
+   python main/main.py
