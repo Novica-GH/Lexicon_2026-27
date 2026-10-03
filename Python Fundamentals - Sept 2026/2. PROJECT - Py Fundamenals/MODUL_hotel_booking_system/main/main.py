@@ -66,7 +66,7 @@ def start_initial_data(manager: HotelManager):
     
   
     # Adding customers ()
-    manager.add_customer(Customer(1, "Ada Ericsson", "ada@ericsson.se"))
+    manager.add_customer(Customer(1, "Ada Ericsson", "ada@ericsson.se"))1
     manager.add_customer(Customer(2, "Bob Smith", "bob@smith.com"))
     manager.add_customer(Customer(3, "Grace Wourth", "gracee@wourth.com"))
       

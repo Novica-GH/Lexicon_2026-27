@@ -328,13 +328,23 @@ class HotelManager:
                 return customer
         raise CustomerNotFoundError(f"Customer with ID {customer_id} does not exist.")
     
-
-    def find_booking(self, booking_id: int):            # Find booking
-            for booking in self.bookings:
-                if booking.booking_id == booking_id:
-                    return True
-            raise BookingConflictError(f"Booking {booking_id} does not exist.")
     
+    def find_booking(self, booking_id: int):
+        for booking in self.bookings:
+            if booking.booking_id == booking_id:
+                return booking
+        raise BookingConflictError(f"Booking with ID {booking_id} does not exist.")
+
+    def cancel_booking(self, booking_id: int):
+        booking = self.find_booking(booking_id)
+        booking.cancel()        # Call .cancel() from Booking Class and change status to 'Cancelled'
+        return booking
+
+    def check_in_booking(self, booking_id: int):
+        booking = self.find_booking(booking_id)
+        booking.check_in()      # Call .check_in() from Booking Class and menu status in 'Checked In'
+        return booking
+
 
     def find_nights(self, nights: int):            # Find nights
             for night in self.bookings:
@@ -458,11 +468,13 @@ def run_project():
         print("\n                    --- Main Menu ---\n")
         print("                 1. View All Rooms")
         print("                 2. View Available Rooms")
-        print("                 3. Create New Booking")
-        print("                 4. Delete Booking")
+        print("                 3. View All Customers")
+        print("                 4. Create New Booking")
         print("                 5. View All Bookings")
-        print("                 6. View System Statistics")
-        print("                 7. Exit")
+        print("                 6. Check-In Booking")
+        print("                 7. Cancel Booking")           # <-- NEW option
+        print("                 8. View System Summary Statistics")
+        print("                 9. Exit")
 
         choice = input(f"\nSelect an option (1-6): \n").strip()
 
@@ -482,7 +494,7 @@ def run_project():
                 for room in avail:
                     print(room)
 
-        elif choice == "3":         # 3. Create New Booking
+        elif choice == "4":         # 3. Create New Booking
             try:
                 c_id = int(input("Enter Customer ID: "))
                 r_num = int(input("Enter Room Number: "))
@@ -497,19 +509,19 @@ def run_project():
 
     #-------------------------------------DELETE.....
 
-        elif choice == "4":         # 4. Delete Booking
-            try:                
-                b_id = int(input("Enter Booking ID you want to delete: "))
-                c_id = int(input("Enter Customer ID: "))
-                r_num = int(input("Enter Room Number: "))
-                nights = int(input("Enter Number of Nights: "))
+        # elif choice == "X":         # 4. Delete Booking
+        #     try:                
+        #         b_id = int(input("Enter Booking ID you want to delete: "))
+        #         c_id = int(input("Enter Customer ID: "))
+        #         r_num = int(input("Enter Room Number: "))
+        #         nights = int(input("Enter Number of Nights: "))
         
-                booking = manager.delete_booking(b_id, c_id, r_num, nights)
-                print("============================================================")
-                print(f"\n[SUCCESS] Booking Deleted Successfully!\n{booking}")
-            except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
-                print("============================================================")
-                print(f"\n[ERROR] Failed to delete booking: {e}")
+        #         booking = manager.delete_booking(b_id, c_id, r_num, nights)
+        #         print("============================================================")
+        #         print(f"\n[SUCCESS] Booking Deleted Successfully!\n{booking}")
+        #     except (ValueError, BookingConflictError, RoomNotFoundError, CustomerNotFoundError) as e:
+        #         print("============================================================")
+        #         print(f"\n[ERROR] Failed to delete booking: {e}")
 
 
         elif choice == "5":         #  5. View All Bookings
@@ -521,7 +533,32 @@ def run_project():
                 for b in manager.bookings:
                     print(b)
 
-        elif choice == "6":         #  6. View System Statistics
+        elif choice == "6":
+            print("============================================================")
+            print("\n    --- CHECK-IN BOOKING ---")
+            try:
+                b_id = int(input("Enter Booking ID to check-in: "))
+                booking = manager.check_in_booking(b_id)
+                print(f"\n[SUCCESS] Booking #{b_id} is now Checked In!")
+            except BookingConflictError as e:
+                print(f"\n[ERROR] {e}")
+            except ValueError:
+                print("\n[INPUT ERROR] Please enter a valid numerical Booking ID.")
+
+        elif choice == "7":
+            print("============================================================")
+            print("\n     --- CANCEL BOOKING ---")
+            try:
+                b_id = int(input("Enter Booking ID to cancel: "))
+                booking = manager.cancel_booking(b_id)
+                print(f"\n[SUCCESS] Booking #{b_id} has been cancelled.")
+            except BookingConflictError as e:
+                print(f"\n[ERROR] {e}")
+            except ValueError:
+                print("\n[INPUT ERROR] Please enter a valid numerical Booking ID.")
+
+1
+        elif choice == "8":         #  6. View System Statistics
             print("============================================================")
             stats = manager.generate_summary()
             print(f"\n   --- System Summary in {manager.hotel_name}  ---\n")
@@ -530,7 +567,7 @@ def run_project():
             print(f"Active Bookings:      {stats['total_active_bookings']}")
             print(f"Total Active Revenue: {stats['total_revenue']:.2f} kr")
 
-        elif choice == "7":         # 7. Exit
+        elif choice == "9":         # 7. Exit
             print("======================================================================================================")
             print(f"\n ... Exiting program. Thank you for your visit. Goodbye and welcome again to {manager.hotel_name}!\n")
             print(f"======================================================================================================\n")
