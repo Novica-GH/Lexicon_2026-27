@@ -460,10 +460,15 @@ def run_project():
     manager = HotelManager("Hotel Astoria")
     start_test_data(manager)
 
+    print()
+    print()
     print("============================================================")
     print(f"\n    === Welcome to {manager.hotel_name} Management System ===-\n")
 
     while True:
+        print()
+        print()
+        print()
         print("============================================================")
         print("\n                    --- Main Menu ---\n")
         print("                 1. View All Rooms")
@@ -474,17 +479,25 @@ def run_project():
         print("                 6. Check-In Booking")
         print("                 7. Cancel Booking")           # <-- NEW option
         print("                 8. View System Summary Statistics")
-        print("                 9. Exit")
 
-        choice = input(f"\nSelect an option (1-6): \n").strip()
+        print("                 9. Exit")
+        choice = input(f"\nSelect an option (1-9): ").strip()
 
         if choice == "1":           #  1. View All Rooms
+            print()
+            print()
+            print()
+            print()
             print("============================================================")
             print(f"\n              --- All Rooms in {manager.hotel_name}  ---\n")
             for room in manager.rooms:
                 print(room)
 
         elif choice == "2":     #  2. View Available Rooms
+            print()
+            print()
+            print()
+            print()
             print("============================================================")
             print(f"\n              --- Available Rooms in {manager.hotel_name} ---\n")
             avail = manager.get_available_rooms()
@@ -525,6 +538,10 @@ def run_project():
 
 
         elif choice == "5":         #  5. View All Bookings
+            print()
+            print()
+            print()
+            print()
             print("============================================================")
             print(f"\n  --- All Bookings in {manager.hotel_name}  ---\n")
             if not manager.bookings:
@@ -534,6 +551,10 @@ def run_project():
                     print(b)
 
         elif choice == "6":
+            print()
+            print()
+            print()
+            print()
             print("============================================================")
             print("\n    --- CHECK-IN BOOKING ---")
             try:
@@ -546,6 +567,10 @@ def run_project():
                 print("\n[INPUT ERROR] Please enter a valid numerical Booking ID.")
 
         elif choice == "7":
+            print()
+            print()
+            print()
+            print()
             print("============================================================")
             print("\n     --- CANCEL BOOKING ---")
             try:
@@ -557,8 +582,12 @@ def run_project():
             except ValueError:
                 print("\n[INPUT ERROR] Please enter a valid numerical Booking ID.")
 
-1
-        elif choice == "8":         #  6. View System Statistics
+
+        elif choice == "8":         #  8. View System Statistics
+            print()
+            print()
+            print()
+            print()
             print("============================================================")
             stats = manager.generate_summary()
             print(f"\n   --- System Summary in {manager.hotel_name}  ---\n")
@@ -567,7 +596,7 @@ def run_project():
             print(f"Active Bookings:      {stats['total_active_bookings']}")
             print(f"Total Active Revenue: {stats['total_revenue']:.2f} kr")
 
-        elif choice == "9":         # 7. Exit
+        elif choice == "9":         # 9. Exit
             print("======================================================================================================")
             print(f"\n ... Exiting program. Thank you for your visit. Goodbye and welcome again to {manager.hotel_name}!\n")
             print(f"======================================================================================================\n")
