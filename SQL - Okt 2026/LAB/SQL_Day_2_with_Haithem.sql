@@ -1,3 +1,9 @@
+-- -- Day 2: Lectures with Haithem - 09:00 October 6 2026 - Tuesday
+
+-- CREATING DATA BASES
+
+
+
 CREATE TABLE pets(
 	pet_id INTEGER PRIMARY KEY,
 	name 	TEXT,
