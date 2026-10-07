@@ -89,11 +89,12 @@ SELECT * FROM suppliers WHERE name = 'WebHallen';
 --Exercise 6: Rename the column email in suppliers to contact_email.
 --			Look up: ALTER TABLE ... RENAME COLUMN · (Expected: Runs without errors)
 
+ALTER TABLE suppliers RENAME COLUMN email TO contact_email;
 
 
 
 -- Exercise 7: Show the columns of the products table using SQL, not the Database Structure tab.
---			Look up: PRAGMA table_info · 		(Expected: 5 rows, one per column)
+--			Look up: PRAGMA table_info 		(Expected: 5 rows, one per column)
 
 
 
