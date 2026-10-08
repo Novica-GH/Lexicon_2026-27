@@ -112,6 +112,8 @@ CREATE TABLE orders(
 );
 	
 
+
+	
 CREATE TABLE order_items( 
 	order_id INTEGER NOT NULL, 
 	product_id INTEGER NOT NULL, 
@@ -122,6 +124,11 @@ CREATE TABLE order_items(
 	FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-INSERT INTO orders(order_id, customer_id, order_date)VALUES(100, 999, '2026-10-01');
+
+
+INSERT INTO orders(order_id, customer_id, order_date)
+VALUES(100, 999, '2026-10-01');
+
+SELECT * FROM orders;
 
 
