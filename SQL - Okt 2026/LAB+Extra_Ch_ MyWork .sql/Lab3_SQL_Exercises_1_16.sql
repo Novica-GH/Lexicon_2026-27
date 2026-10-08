@@ -118,20 +118,45 @@ SELECT COUNT(*) FROM orders;
 -- 5. It is wery hard to go through all the courses and find all students that listen one specific course...
 
 
+
 -- Exercise 11: In order_sheet, which normal form does the products column break? How would you fix it?
 
+-- It break 1NF. It is necessary that values in kolumns are atomic (non divisable), but here we have had (before normalization) for example ("Hoodie Black, Cap Logo") in one cell
+-- We need to have next structuer on paper: 
+
+-- 1. orders 
+--		order_id (Primary Key)
+--		customer_id (Foreign Key)
+--		order_date
+-- 2. products 
+--		product_id (Primary Key)
+--		name
+--		price
+-- 3. order_items 			-- Connecting table
+--		order_id 	(Foreign Key -> orders.order_id)
+--		product_id 	(Foreign Key -> products.product_id)
+--		quantity
+--		Primary Key: (order_id, product_id)
 
 -- Exercise 12: A table has: order_id | customer_id | customer_email | order_date. Which column is in the wrong place? Why?
+
+-- customer_email is in the wrong place:
+-- 
+
 
 
 -- Exercise 13: Music school (in pairs): 'Students take lessons from teachers. A lesson has a date, time, room and instrument. 
 --              One teacher can teach many instruments.' Underline the things.
 
 
+
 -- Exercise 14: Find the relationships in the music school. Which are 1:N and which are N:M?
 
 
+
 -- Exercise 15: Draw the ER diagram for the music school.
+
+
 
 -- Exercise 16: Write the CREATE TABLE statements for the music school in a new file music.db.
 --				Database: create a new file. C
