@@ -3,8 +3,9 @@
 #  Cours: SQL                                                  *
 #  Oktober 12 2026 - LAB: Python meets SQL                                                                *
 #
-#         Exercises: Python and personal data
-# #                           *
+#         To fast, to fast, to fast, I am out, I don't feel well. 
+# I feel really bad all day     
+# I am paralyzed and lost my focus not only on this course...                      *
 #********************************************************************************************
 
 
