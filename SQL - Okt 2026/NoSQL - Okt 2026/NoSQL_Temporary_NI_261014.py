@@ -1,3 +1,4 @@
+# Punjenje baze
 
 from datetime import datetime
 from pymongo import MongoClient
@@ -57,5 +58,5 @@ print("webshop is ready:",
       db.products.count_documents({}), "products,",
       db.orders.count_documents({}), "orders")
  
-has context menu
-Send to: thread only
+# has context menu
+# Send to: thread only
