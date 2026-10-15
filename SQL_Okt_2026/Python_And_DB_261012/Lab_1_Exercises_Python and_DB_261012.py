@@ -86,27 +86,49 @@
 #  Expected: 10 lines
 #***********************************************************************************************
 
-import sqlite3
+# import sqlite3
 
-conn = sqlite3.connect("webshop.db")
-cursor = conn.cursor()
+# conn = sqlite3.connect("webshop.db")
+# conn.execute("PRAGMA foreign_keys = ON")
+# cursor = conn.cursor()
 
 
-cursor.execute("""
-    SELECT first_name, last_name, COALESCE(city, 'unknown')  
-    FROM customers
-""")
+# cursor.execute("SELECT first_name, last_name, COALESCE(city, 'unknown') FROM customers")
 
-for first_name, last_name, city in cursor.fetchall():
-    print(f"{first_name} {last_name} ({city})")
+# for first_name, last_name, city in cursor.fetchall():
+#     print(f"{first_name} {last_name} ({city})")
 
-conn.close()
+# conn.close()
 
 
 #****************************************************************************************************
 #  Exercise 2
 #  Ask the user for a max price and show all products cheaper than that. Use a ? placeholder.
 #****************************************************************************************************
+
+# import sqlite3
+
+# conn = sqlite3.connect("webshop.db")
+# cursor = conn.cursor()
+
+# max_price = float(input("Input maximal price (kr): "))
+
+
+# query = "SELECT name, price FROM products WHERE price < ? ORDER BY price ASC"
+# cursor.execute(query, (max_price,))
+
+# products = cursor.fetchall()
+
+# if products:
+#     print(f"\nProducts cheaper then {max_price} kr:")
+#     for name, price in products:
+#         print(f"  - {name:<20}- {price:>7.2f} kr")
+# else:
+#     print(f"\nThere is no products cheaper than {max_price} kr.")
+
+# conn.close()
+
+
 
 
 
@@ -115,7 +137,25 @@ conn.close()
 #   Ask the user for a category and print how many products it has. Use COUNT and fetchone().                                  *
 #************************************************************************************************
 
+# import sqlite3
 
+# conn = sqlite3.connect("webshop.db")
+# cursor = conn.cursor()
+
+
+# category = input("Input a category (for example: Clothing, Shoes, Accessories): ")
+
+
+# query = "SELECT COUNT(*) FROM products WHERE category = ?"
+# cursor.execute(query, (category,))
+
+
+# result = cursor.fetchone()
+# count = result[0]
+
+# print(f"Category '{category}' has total {count} product(s).")
+
+# conn.close()
 
 
 
@@ -126,6 +166,13 @@ conn.close()
 #   Expected: a few sentences
 #******************************************************************************************************
 
+# - It is possible and very danger that via f-strins user can directly insert unchecked input
+#    that can change SQL sintax and logic of a query, and even to go around autentification 
+#     and delete or take some data from the data base.
+#
+#   - ? placeholder is a safe way - Input is standariserad and parametriserad as a value - not SQL command.
+#        In that case eaven if import looks like SQL command it is not going to execute and harm the data base,
+#        because this for example SQL command is goint to be interpreted like a text or number... not command!
 
 
 
@@ -135,6 +182,51 @@ conn.close()
 #   stock.
 #*******************************************************************************************************
 
+# import sqlite3
+
+# def show_menu():
+#     print("\n   --- WEBSHOP MENU ---\n")
+#     print(" 1. Show all procucts")
+#     print(" 2. Search by price")
+#     print(" 3. Count by category")
+#     print(" 4. Change stock levels of products")
+#     print(" 9. Exit\n")
+
+# def update_stock():
+#     try:
+#         product_id = int(input("Input ID of procuct: "))
+#         new_stock = int(input("Input a new stock level: "))
+
+#         conn = sqlite3.connect("webshop.db")
+#         cursor = conn.cursor()
+
+#         cursor.execute(
+#             "UPDATE products SET stock = ? WHERE product_id = ?",
+#             (new_stock, product_id)
+#         )
+        
+#         conn.commit()   # We need too confirm uppdate in db.
+#         if cursor.rowcount > 0:
+#             print(f"The  stock status for product ID {product_id} has been successfully updated to {new_stock}.")
+#         else:
+#             print(f"Product with ID {product_id} not found.")
+
+#         conn.close()
+#     except ValueError:
+#         print("Error: ID and stock level must be integers!")
+
+
+# while True:
+#     show_menu()
+#     choice = input("Select an option: ")
+
+#     if choice == "4":
+#         update_stock()
+#     elif choice == "9":
+#         print("Bye, bye!\n")
+#         break
+
+
 
 #***********************************************************************************************
 #   Exercise 6
@@ -142,13 +234,101 @@ conn.close()
 #   show product names.
 #***********************************************************************************************
 
-    
+# import sqlite3
+
+# def show_menu():
+#     print("\n   --- WEBSHOP MENU ---\n")
+#     print(" 1. Show all procucts")
+#     print(" 2. Search by price")
+#     print(" 3. Count by category")
+#     print(" 4. Change stock levels of products")
+#     print(" 5. Show an order's receipt" )
+#     print(" 9. Exit\n")
+
+# def update_stock():
+#     try:
+#         product_id = int(input("Input ID of procuct: "))
+#         new_stock = int(input("Input a new stock level: "))
+
+#         conn = sqlite3.connect("webshop.db")
+#         cursor = conn.cursor()
+
+#         cursor.execute(
+#             "UPDATE products SET stock = ? WHERE product_id = ?",
+#             (new_stock, product_id)
+#         )
+        
+#         conn.commit()   # We need too confirm uppdate in db.
+#         if cursor.rowcount > 0:
+#             print(f"The  stock status for product ID {product_id} has been successfully updated to {new_stock}.")
+#         else:
+#             print(f"Product with ID {product_id} not found.")
+
+#         conn.close()
+#     except ValueError:
+#         print("Error: ID and stock level must be integers!")
+
+# # A part - uppdate from exercise 6
+
+# def show_order_receipt():
+#     try:
+#         order_id = int(input("Input order_id: "))
+
+#         conn = sqlite3.connect("webshop.db")
+#         cursor = conn.cursor()
+
+#         query = """
+#             SELECT p.name, oi.quantity, oi.unit_price, (oi.quantity * oi.unit_price) AS line_total
+#             FROM order_items oi
+#             JOIN products p ON oi.product_id = p.product_id
+#             WHERE oi.order_id = ?
+#         """
+#         cursor.execute(query, (order_id,))
+#         items = cursor.fetchall()
+
+#         if items:
+#             print(f"\n  --- RECEIPT FOR ORDER #{order_id} ---")
+#             total_amount = 0
+#             for name, quantity, unit_price, line_total in items:
+#                 print(f"  - {name} | {quantity} * {unit_price} kr = {line_total} kr")
+#                 total_amount += line_total
+            
+#             print("-" * 35)
+#             print(f"TOTAL: {total_amount} kr")
+#         else:
+#             print(f"Order #{order_id} was not found or has no items.")
+
+#         conn.close()
+#     except ValueError:
+#         print("Please enter a valid numeric order ID.")
+
+# # now we continue with "old" part from ex.5
+
+
+# while True:
+#     show_menu()
+#     choice = input("Select an option: ")
+
+#     if choice == "4":
+#         update_stock()
+#     elif choice == "5":
+#         show_order_receipt()    
+#     elif choice == "9":
+#         print("Bye, bye!\n")
+#         break
+
+
+
 #****************************************************************************************************
 #   Exercise 7
 #   What happens in add_product if the user types abc as the price? Fix it with try/except.
 #****************************************************************************************************
 
+# I fixed it in ex.6 - with try/except:
 
+    # conn.close()
+    # except ValueError:
+    #     print("Please enter a valid numeric order ID.")
 
 #************************************************************************************************
 #   Exercise 8
@@ -158,7 +338,119 @@ conn.close()
 #************************************************************************************************
 
 
+import sqlite3
 
+def show_menu():
+    print("\n   --- WEBSHOP MENU ---\n")
+    print(" 1. Show all procucts")
+    print(" 2. Search by price")
+    print(" 3. Count by category")
+    print(" 4. Change stock levels of products")
+    print(" 5. Show an order's receipt" )
+    print(" 6. Top 3 best-selling products" )
+    print(" 9. Exit\n")
+
+def update_stock():
+    try:
+        product_id = int(input("Input ID of procuct: "))
+        new_stock = int(input("Input a new stock level: "))
+
+        conn = sqlite3.connect("webshop.db")
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "UPDATE products SET stock = ? WHERE product_id = ?",
+            (new_stock, product_id)
+        )
+        
+        conn.commit()   # We need too confirm uppdate in db.
+        if cursor.rowcount > 0:
+            print(f"The  stock status for product ID {product_id} has been successfully updated to {new_stock}.")
+        else:
+            print(f"Product with ID {product_id} not found.")
+
+        conn.close()
+    except ValueError:
+        print("Error: ID and stock level must be integers!")
+
+# A part - uppdate from exercise 6
+
+def show_order_receipt():
+    try:
+        order_id = int(input("Input order_id: "))
+
+        conn = sqlite3.connect("webshop.db")
+        cursor = conn.cursor()
+
+        query = """
+            SELECT p.name, oi.quantity, oi.unit_price, (oi.quantity * oi.unit_price) AS line_total
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.product_id
+            WHERE oi.order_id = ?
+        """
+        cursor.execute(query, (order_id,))
+        items = cursor.fetchall()
+
+        if items:
+            print(f"\n  --- RECEIPT FOR ORDER #{order_id} ---")
+            total_amount = 0
+            for name, quantity, unit_price, line_total in items:
+                print(f"  - {name} | {quantity} * {unit_price} kr = {line_total} kr")
+                total_amount += line_total
+            
+            print("-" * 35)
+            print(f"TOTAL: {total_amount} kr")
+        else:
+            print(f"Order #{order_id} was not found or has no items.")
+
+        conn.close()
+    except ValueError:
+        print("Please enter a valid numeric order ID.")
+
+
+# A part - uppdate from exercise 8
+
+def show_top_selling_products():
+    conn = sqlite3.connect("webshop.db")
+    cursor = conn.cursor()
+
+    
+    query = """
+        SELECT p.name, SUM(oi.quantity) AS total_sold
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.product_id
+        GROUP BY oi.product_id, p.name
+        ORDER BY total_sold DESC
+        LIMIT 3
+    """
+    cursor.execute(query)
+    top_products = cursor.fetchall()
+
+    if top_products:
+        print("\n  --- TOP 3 BEST-SELLING PRODUCTS ---\n")
+        for name, total_sold in top_products:
+            print(f"  - {name:<15}: {total_sold} units sold")
+    else:
+        print("No order items found.")
+
+    conn.close()
+
+# now we continue with "old" part from ex.5
+
+
+while True:
+    show_menu()
+    choice = input("Select an option: ")
+
+    if choice == "4":
+        update_stock()
+    elif choice == "5":
+        show_order_receipt()  
+    elif choice == "6":
+        show_top_selling_products()        
+    elif choice == "9":
+        print("Bye, bye!  Tack för idag! Ha en trevlig kväll! :)\n")
+        break
 
 
 
