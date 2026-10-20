@@ -21,34 +21,169 @@
 # POST /products
 # PATCH /products/<id>
 
-# Tasks
+#########################
+#       Tasks:
+######################
 
 # 1 Sort the products by price
+
 # Fetch /products with get_json. You get a list of dictionaries. Sort the list so the
 # cheapest product comes first and print one line per product with the price and the title.
 # Hint: sorted(products, key=...), where the key function takes one product and
 # returns its price.
 
 
+# import requests
+
+# def get_json(url):
+#     response = requests.get(url)
+#     response.raise_for_status()
+#     return response.json()
+
+
+# # 1. Fetch products from the API
+# url = "https://fakestoreapi.com/products"
+# products = get_json(url)
+
+# # 2. Sort products by price (cheapest first)
+# sorted_products = sorted(products, key=lambda product: product["price"])
+
+# # 3. Print one line per product with price and title
+# print("--- PRODUCTS SORTED BY PRICE (ASCENDING) ---")
+# for product in sorted_products:
+#     print(f"{product['price']} kr - {product['title']}")
+
+# Terminal:
+#        7.95 kr - Opna Women's Short Sleeve Moisture
+#        9.85 kr - MBJ Women's Solid Short Sleeve Boat Neck V 
+#        9.99 kr - White Gold Plated Princess
+#       10.99 kr - Pierced Owl Rose Gold Plated Stainless Steel Double
+#       12.99 kr - DANVOUY Womens T Shirt Casual Cotton Short
+#       15.99 kr - Mens Casual Slim Fit
+#       22.3 kr - Mens Casual Premium Slim Fit T-Shirts 
+#       29.95 kr - Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket
+#       39.99 kr - Rain Jacket Women Windbreaker Striped Climbing Raincoats
+#       55.99 kr - Mens Cotton Jacket
+#       56.99 kr - BIYLACLESEN Women's 3-in-1 Snowboard Jacket Winter Coats
+#       64 kr - WD 2TB Elements Portable External Hard Drive - USB 3.0 
+#       109 kr - SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s
+#       109 kr - Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5
+#       109.95 kr - Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops
+#       114 kr - WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive
+#       168 kr - Solid Gold Petite Micropave 
+#       599 kr - Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-Thin
+#       695 kr - John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet
+#       999.99 kr - Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED 
+#------------------------------------------------------------------------------------------------
+
+
 
 # 2 Look at the categories
-# Fetch /products/categories and print the result. Then ask the user to type one of the
-# categories with input(). Fetch /products/category/<name> and print how many
-# products it has and which one is the cheapest. Think about what happens if the user
+
+# 2.1. Fetch /products/categories and print the result. 
+# 2.2. Then ask the user to type one of the categories with input(). 
+# 2.3. Fetch /products/category/<name> and 
+# 2.4 print how many # products it has and which one is the cheapest. 
+# 2.5 Think about what happens if the user
 # types a category that does not exist. Note: the category is spelled jewelery in this API.
 # That is not your mistake.
 
 
 
+# import requests
 
-# 3 Move get_json to its own file
-# Create a file called api_client.py and move the get_json function there. In your lab
-# file, import it with from api_client import get_json. Run the lab again. It should
-# work exactly as before. You will reuse this file in Lab 2.
+# def get_json(url):
+#     response = requests.get(url)
+#     response.raise_for_status()
+#     return response.json()
+
+
+# # 2.1. Fetch and print all categories
+# base_url = "https://fakestoreapi.com"
+# categories = get_json(f"{base_url}/products/categories")
+
+# # print("Available categories:")
+# # for cat in categories:
+# #     print(f"- {cat}")
+
+# # # Available categories:
+# # # - electronics
+# # # - jewelery
+# # # - men's clothing
+# # # - women's clothing
+
+
+# # 2.2. Ask the user to enter a category
+# user_choice = input(
+#     "\nEnter a category name: "
+# ).strip()  # Note: API spells it 'jewelery'
+
+# # Terminal:Enter a category name: electronics
+
+# if user_choice not in categories:
+#     print(
+#         f"Error: '{user_choice}' is not a valid category. Please run again and pick from the list above."
+#     )
+# else:
+#     #2.3. Fetch products for the chosen category
+#     category_products = get_json(f"{base_url}/products/category/{user_choice}")
+
+#     # 2.4. Print count and cheapest product
+#     if category_products:
+#         print(
+#             f"\nCategory '{user_choice}' has {len(category_products)} products."
+#         )
+
+#         cheapest = min(category_products, key=lambda p: p["price"])
+#         print(
+#             f"Cheapest product: {cheapest['title']} ({cheapest['price']} kr)"
+#         )
+#     else:
+#         print("No products found in this category.")
+
+
+# # Terminal:   Category 'electronics' has 6 products.
+# #             Cheapest product: WD 2TB Elements Portable External Hard Drive - USB 3.0  (64 kr)
+
+#2.5 Enter a category name: Accessories
+#    Error: 'Accessories' is not a valid category. Please run again and pick from the list above.
+#----------------------------------------------------------------------------
+
+
+
+# 3.  Move get_json to its own file
+
+# 3.1. Create a file called api_client.py and move the get_json function there. 
+# 3.2. In your lab file, import it with from api_client import get_json. 
+# Run the lab again. 
+# It should work exactly as before. You will reuse this file in Lab 2.
+
+
+# # 3.2.
+# from api_client import get_json
+
+
+# products = get_json("https://fakestoreapi.com/products")
+# sorted_products = sorted(products, key=lambda p: p["price"])
+
+# print("--- CHEAPEST PRODUCT ---")
+# print(f"{sorted_products[0]['price']} kr - {sorted_products[0]['title']}")
+
+# # 
+# categories = get_json("https://fakestoreapi.com/products/categories")
+# print("\nAvailable categories:", categories)
+
+# # Terminal: --- CHEAPEST PRODUCT ---
+# #           7.95 kr - Opna Women's Short Sleeve Moisture
+
+# #           Available categories: ['electronics', 'jewelery', "men's clothing", "women's clothing"]
+#----------------------------------------------------------------------------
+
 
 
 
 # 4 Create and change a product
+
 # Build a dictionary for a new product (title, price, description, image, category, but no id).
 # Send it with requests.post(..., json=...) and print the status code and the answer.
 # Then change the price of an existing product, for example product 7, with
@@ -57,13 +192,136 @@
 # status code.
 
 
+# import requests
+
+# BASE_URL = "https://fakestoreapi.com/products"
+# TIMEOUT = 10  # Seconds timeout for network requests
+
+# # --- 1. CREATE A NEW PRODUCT (POST) ---
+# new_product = {
+#     "title": "Powers best laptop",
+#     "price": 84999.00,
+#     "description": "Lenovo Yoga Pro 9 15N1X (N1X/128/2TB) NVIDIA RTX Spark™ N1X 15” bärbar dator    .",
+#     "image": "https://www.power.se/datorer-och-surfplattor/datorer/barbar-dator/lenovo-yoga-pro-9-15n1x-n1x1282tb-nvidia-rtx-spark-n1x-15-barbar-dator/p-4310215/",
+#     "category": "electronics",
+# }
+
+# print("--- POST /products ---")
+# try:
+#     response = requests.post(BASE_URL, json=new_product, timeout=TIMEOUT)
+#     print(f"Status Code: {response.status_code}")
+
+#     if response.status_code == 200 or response.status_code == 201:
+#         print("Response JSON:", response.json())
+#     else:
+#         print("Failed to create product:", response.text)
+# except requests.exceptions.RequestException as e:
+#     print(f"Request failed: {e}")
+
+# print("\n" + "-" * 30 + "\n")
+
+# # Terminal: 
+#     # --- POST /products ---
+#     # Status Code: 201
+#     # Response JSON: {'id': 21, 'title': 'Powers best laptop', 'price': 84999, 
+#     # 'description': 'Lenovo Yoga Pro 9 15N1X (N1X/128/2TB) NVIDIA RTX Spark™ N1X 15” bärbar dator    .', 
+#     # 'image': 'https://www.power.se/datorer-och-surfplattor/datorer/barbar-dator/lenovo-yoga-pro-9-15n1x-n1x1282tb-nvidia-rtx-spark-n1x-15-barbar-dator/p-4310215/', 'category': 'electronics'}
+
+
+
+# # --- 2. UPDATE AN EXISTING PRODUCT PRICE (PATCH) ---
+# product_id = 7
+# patch_data = {"price": 74999.00}
+
+# print(f"--- PATCH /products/{product_id} ---")
+# try:
+#     response = requests.patch(
+#         f"{BASE_URL}/{product_id}", json=patch_data, timeout=TIMEOUT
+#     )
+#     print(f"Status Code: {response.status_code}")
+
+#     if response.status_code == 200:
+#         print("Response JSON:", response.json())
+#     else:
+#         print("Failed to patch product:", response.text)
+# except requests.exceptions.RequestException as e:
+#     print(f"Request failed: {e}")
+
+
+# # Terminal: 
+#     # Status Code: 200
+#     # Response JSON: {'id': 7, 'price': 74999}
+
+
+
 
 # 5 Break it on purpose
+
 # Call your function with a wrong URL, with timeout=0.001, and with a made-up domain.
 # For each one, read the message you get. The program must not crash, and every
 # problem should give a short message that a human can read.
+
 # Expected for task 4: status 200 and an answer with an id (the fake API answers 200, a real
 # API often answers 201). For PATCH the fake API just sends back what you sent.
+
+import requests
+from api_client import get_json
+
+# --- 1. Wrong URL (404 Not Found) ---
+print("--- Test 1: Wrong URL ---")
+try:
+    data = get_json("https://fakestoreapi.com/non_existent_endpoint_12345")
+except requests.exceptions.HTTPError as e:
+    print(
+        f"Error: The requested page/endpoint was not found. ({e.response.status_code})"
+    )
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
+
+print("\n" + "-" * 40 + "\n")
+
+# Terminal:
+    # --- Test 1: Wrong URL ---
+    # Error: The requested page/endpoint was not found. (404)
+
+    # ----------------------------------------
+
+
+# --- 2. Timeout Too Short (Timeout Error) ---
+print("--- Test 2: Timeout = 0.001s ---")
+try:
+    response = requests.get(
+        "https://fakestoreapi.com/products", timeout=0.001
+    )
+    response.raise_for_status()
+except requests.exceptions.Timeout:
+    print("Error: The request timed out because the server took too long to respond.")
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
+
+print("\n" + "-" * 40 + "\n")
+
+
+# Terminal:
+    # --- Test 2: Timeout = 0.001s ---
+    # Error: The request timed out because the server took too long to respond.
+
+    # ----------------------------------------
+
+
+# --- 3. Made-up Domain (DNS / Connection Error) ---
+print("--- Test 3: Made-up Domain ---")
+try:
+    data = get_json("https://this-domain-definitely-does-not-exist-99999.com")
+except requests.exceptions.ConnectionError:
+    print("Error: Could not connect to the server. Check the domain name or network connection.")
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
+
+# Terminal: 
+    # --- Test 3: Made-up Domain ---
+    # Error: Could not connect to the server. Check the domain name or network connection.
+
 
 
 
