@@ -1,0 +1,214 @@
+2026-10-22 Exercises: Agile methods and Scrum
+
+Part 1 is done on your own: write your answers in a document. 
+Part 2 is a group project with 4-5people. No code, only thinking, writing and talking.
+
+Part 1: Check your understanding
+
+Exercise 1
+Explain in your own words why the Waterfall method often goes wrong when building software.
+Give two reasons.
+
+Answers: 
+1.1. Waterfall has lack of flexibility to changes; 
+Exempel:Requirements are locked at the start, 
+making it difficult and expensive to adapt 
+when customer needs or market conditions change during development.
+
+1.2. It also has (to)late testing and feedback: 
+Testing happens only at the very end of the project, 
+meaning critical bugs, integration issues, or design flaws 
+are discovered too late to fix easily (and without any extra, extra costs!!!)
+------------------------------------
+
+Exercise 2
+Pick two of the four values in the Agile Manifesto. For each one, give an example of what it could
+look like in a real team.
+
+Answers:
+2.1. Individuals and interactions over processes and tools
+
+Example: Instead of opening a formal support ticket and waiting days for an answer, 
+a developer walks to the designer or starts a quick call to clarify something unclear in two to five minutes.
+
+2.2. Customer collaboration over contract negotiation
+
+Example: The team presents a working prototype to the client during a two-weekly demo 
+and adjusts the upcoming feature list based on direct client feedback, 
+instead of getting bogged down in documents concerning the original project scope.
+------------------------------------
+
+Exercise 3
+Who does what? Write Product Owner, Scrum Master or Developers for each line.
+a) Decides the order of the Product Backlog
+b) Decides how to build a feature
+c) Helps the team when a test server has been down for two days
+d) Talks to customers about what they need
+e) Coaches the team when the Daily Scrum takes 45 minutes
+
+Answers:
+
+a) Product Owner
+b) Developers
+c) Scrum Master
+d) Product Owner
+e) Scrum Master
+---------------------------------------------
+
+Exercise 4
+Your team works in two-week sprints. 
+In the middle of a sprint, the CEO comes in and wants a new feature right away. 
+What should happen, according to Scrum?
+
+Answer:
+According to Scrum, the CEO cannot force the team to interrupt the active Sprint. 
+
+Here is what happens:
+1. The Product Owner handles the request: 
+The CEO presents the new feature request to the Product Owner, not directly to the Developers.
+
+2. The Product Owner evaluates and prioritizes: 
+The Product Owner adds the request to the Product Backlog and decides its priority relative to other work.
+
+3. Planned for a future Sprint: 
+If it is high priority, the Product Owner will prioritize it for the next Sprint Planning meeting.
+
+OBS! In extreme emergencies where the current Sprint Goal becomes completely obsolete, 
+     ONLY the Product Owner has the authority to cancel the Sprint, but this is rare.
+------------------------------------------------------
+
+
+Exercise 5
+What is the difference between the Sprint Review and the Sprint Retrospective? Who takes part in each?
+
+Answer:
+1. Sprint Review demonstrates the increment built during the Sprint and gathering feedback.
+   Participants are: Product Owner, Scrum Master, Developers, customers, management)
+
+2. Sprint Retrospective reflects on HOW the team worked (tools, relationships, processes) to continuously improve.
+----------------------------------------------------------
+
+
+Exercise 6
+Rewrite these backlog items as user stories (As a ..., I want ..., so that ...):
+a) Add login
+b) Export orders to Excel
+c) Dark mode
+
+a) As a registered user, I want to log in with my username and password, so that I can securely access my personal account.
+
+b) As a store manager, I want to export sales orders to an Excel file, so that I can analyze sales data.
+
+c) As a night-bird person, I want to switch the app display to dark mode, so that I can use my phone without straining my eyes.
+-----------------------------------------------------------
+
+
+
+Exercise 7
+Write three acceptance criteria for this story: 
+As a customer, 
+I want to see my order history, 
+so that I can buy the same thing again.
+
+1. Order List Display: 
+The system displays a chronological list of all previous orders, 
+showing the order date, total price, order status, and 
+itemized product summary for each order.
+
+2. Reorder Button: 
+A "Buy Again" button is available next to each past order, 
+which adds all items from that specific order directly into the shopping cart with one click.
+
+3. Out-of-Stock Handling: 
+If an item from a past order is currently out of stock or no longer available, 
+the system adds only the available items to the cart and displays a clear notification 
+explaining which items could not be reordered.
+------------------------------------------------
+
+
+
+Exercise 8
+Write a Definition of Done for a team of four developers. Include at least five points.
+
+
+Definition of Done (DoD):
+A User Story or Backlog Item is considered Done and ready for release when:
+
+1. Code Quality & Peer Review: 
+All code complies with agreed coding standards and has been reviewed 
+and approved by at least one other developer on the team via a pull request.
+
+2. Testing: 
+Unit and integration tests are written and passing, 
+with no critical or high-priority bugs outstanding.
+
+3. Responsive UI/UX: 
+The user interface is tested and functions correctly 
+across supported mobile and desktop viewports.
+
+4. Environment Deployment: 
+The feature is automatically built, merged into the main branch, 
+and deployed to the staging/test environment.
+
+5. Acceptance Criteria & PO Sign-off: 
+All acceptance criteria specified in the user story are fully met, 
+manually verified, and accepted by the Product Owner.
+-----------------------------------------------------
+
+
+
+Exercise 9
+A team's Daily Scrum takes 45 minutes. Everyone stands
+
+A 45-minute meeting is no longer a Daily Scrum
+—it has turned into a prolonged status report or a problem-solving session.
+------------------------------------------------------------------------
+
+Exercise 10
+Scrum or Kanban? Choose for each team and explain why.
+a) A team building a new mobile app
+b) An IT support desk
+c) A team fixing bugs in a webshop that is already live
+
+a) Scrum
+
+Why: Building a brand-new app involves planned feature development, 
+defined milestones, and continuous user feedback, 
+which benefit from fixed-length Sprints and structured iterative planning.
+
+b) Kanban
+
+Why: Support tickets arrive continuously and unpredictably. 
+Kanban’s continuous flow model and Work-In-Progress (WIP) limits fit real-time request 
+handling far better than fixed Sprint cycles.
+
+c) Kanban (or Scrumban - kombo)
+
+Why: Live bug fixes require rapid turnaround and priority-based response. 
+Kanban allows immediate pull of high-priority hotfixes 
+without waiting for or breaking a 2-week Sprint commitment.
+-----------------------------------------------------------
+
+
+Exercise 11
+In planning poker, four developers show 2, 3, 3 and 13 for the same story. 
+What should the team do next?
+
+The team should hold a brief discussion focused on the extreme estimates,
+then re-vote:
+
+Ask the developer with 13 to explain: 
+They might have spotted hidden complexities, edge cases, technical risks, 
+or missing acceptance criteria that others overlooked.
+
+Ask the developer with 2 to explain: 
+They might know a quick shortcut, an existing library, 
+or a simpler implementation method that others haven't considered.
+
+Clarify assumptions: 
+The Product Owner or team clarifies any misunderstandings about the story scope.
+
+Re-vote: 
+All developers vote again simultaneously using their Planning Poker cards 
+until the estimates converge toward a consensus.
+------------------------------------------------
