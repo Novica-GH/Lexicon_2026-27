@@ -2,8 +2,12 @@
 
 Part 1 is done on your own: write your answers in a document. 
 Part 2 is a group project with 4-5people. No code, only thinking, writing and talking.
+-----------------------------------------
+
 
 Part 1: Check your understanding
+--------------------------------
+
 
 Exercise 1
 Explain in your own words why the Waterfall method often goes wrong when building software.
