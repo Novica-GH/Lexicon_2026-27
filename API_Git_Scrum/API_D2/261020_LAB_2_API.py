@@ -1,7 +1,7 @@
 #********************************************************************************************
 #  Novica Ivkovic                                                                           *
 #  Cours: System Developer Python and AI                                                    *
-#  Oktober 20_21 2026 - LAB 2                                                                
+#  Oktober 20_21_23 2026 - LAB 2                                                                
 #             
 #               Today's study goal is:  Part 1: Your own API   
 # 
@@ -57,9 +57,11 @@
 
 
 #*****************************************************************************
-#       LAB 2.1.3 
-#----------------------------------------------------------------------
-#
+#       LAB 2.1.3 Filter with a query parameter
+#-------------------------------------------------
+# Let GET /movies take an optional director and an optional year. 
+# Without any of them you get all movies. 
+# Try /movies?director=scott and /movies?year=1999.
 #
 #******************************************************************************
 
@@ -74,9 +76,12 @@
 
 
 #********************************************************************************************
-#       LAB 2.1.4
+#       LAB 2.1.4 Filter with a query parameter
 #-------------------------------------
 # 
+# Let GET /movies take an optional director and an optional year. 
+# Without any of them you get all movies. 
+# Try /movies?director=scott and /movies?year=1999.
 # 
 #**********************************************************************************************
 
@@ -87,9 +92,14 @@
 
 
 #******************************************************************************************
-#      LAB 2.1.5
+#      LAB 2.1.5 Replace and remove
 #------------------------------
 # 
+#  You will now look up a movie by id three times, so move that code into a function
+#  find_movie(movie_id) that returns the movie or raises the 404. 
+#  Use it in PUT /movies/{movie_id} (takes a full Movie) and in DELETE /movies/{movie_id} (answers 204). 
+#  Delete the same movie twice. What happens the second time? Then save the file
+#  so that the server restarts, and check what happened to the movies you added.
 #*******************************************************************************************
 
  
@@ -98,9 +108,14 @@
 
 
 #******************************************************************************************
-#      LAB 2.1.6
+#      LAB 2.1.6 Call your own API from Python
 #------------------------------
-# 
+#
+#   Copy api_client.py from yesterday into the folder. In a new file client.py, use get_json 
+#   to get all movies and one movie that does not exist, and use requests.post to add a movie. 
+#   Run the server in one terminal and client.py in another. 
+#   Print the status code of the POST.  Expected: the list of movies, 
+#   The server said no: 404 for the missing movie, and 201 for the POST.
 #*******************************************************************************************
 
  
@@ -131,9 +146,12 @@
 
 ##################################################################################################
 #**************************************
-#       LAB 2.2.1 
+#       LAB 2.2.1 Write the model and the route
 #*************************************
 #
+#   Add the class MovieUpdate above, and a route PATCH /movies/{movie_id} that takes the id and a MovieUpdate. 
+#   Use find_movie, then update the movie with the fields the client sent. 
+#   Hint: movie.update(changes.model_dump(exclude_unset=True)). Return the updated movie.
 #*****************************************************************************************
 
 # 
@@ -147,19 +165,24 @@
 
 
 #*************************************************************************************
-#       LAB 2.2.2
+#       LAB 2.2.2 Test that only one field changes
 #---------------------------------------------------------
-# 
-#**********************************************************************************
+#   In /docs, send a body that only contains {"year": 2000}. 
+#   Check with GET /movies/1 that the title and the director are unchanged
+#               Expected for step 2: only the year is changed.
+# #**********************************************************************************
 
 # 
 
 
-#**************************************************************************
-#       LAB 2.2.3
+#***********************************************************************************
+#       LAB 2.2.3  Test the edges
 #--------------------------
-# 
-#****************************************************************************************************************
+#   What happens with an empty body {}? And with a year written as text? 
+#   And with an id that does not exist? Write down the status code for each.
+#   Expected for step 3: an empty body changes nothing,
+#   text as year gives 422, and a missing id gives 404.
+#***********************************************************************************
 
 
 
@@ -169,11 +192,12 @@
 
 
 #************************************************************************************
-#       LAB 2.2.4
+#       LAB 2.2.4  Explain the difference
 #--------------------------------------------
-# 
+#   Write two sentences, as a comment in your code, about when you would use PUT 
+#   and when you would use PATCH.
 #**************************************************************************************
-
+# 
 
 
 
