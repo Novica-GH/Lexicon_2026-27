@@ -5,7 +5,7 @@ print(sys.version)
 print(pd.__version__)
 
 listings = pd.read_csv('data/listings.csv') # load the file
-listings.shape listings.head() listings.info()
+listings.shape  listings.head() listings.info()
 listings[['a', 'b']].count() # values that are NOT missing
 listings[['a', 'b']] # pick columns (double brackets)
 listings['x'].describe() listings['x'].nunique()
